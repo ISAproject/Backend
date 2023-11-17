@@ -22,7 +22,7 @@ public class CompanyService {
         return companyRepository.findAll();
     }
 
-    public Company getCompany(Long id){
-        return companyRepository.getReferenceById(id);
+    public Company getById(Long id){
+        return companyRepository.findById(id).orElse(null);
     }
 }
