@@ -27,4 +27,9 @@ public class CompanyController {
     public List<Company> getCompanies(){
         return companyService.getCompanies();
     }
+
+    @GetMapping("{/id}")
+    public  Company getCompany(Long id){
+        return companyService.getCompany(id);
+    }
 }

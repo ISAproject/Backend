@@ -1,7 +1,8 @@
 package com.example.ISA2023.back.services;
 
 import com.example.ISA2023.back.models.Company;
-import org.springframework.stereotype.Component;
+import com.example.ISA2023.back.models.irepositories.CompanyRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -10,17 +11,18 @@ import java.util.List;
 
 @Service
 public class CompanyService {
+    private final CompanyRepository companyRepository;
+
+    @Autowired
+    public CompanyService(CompanyRepository companyRepository) {
+        this.companyRepository = companyRepository;
+    }
+
     public List<Company> getCompanies(){
-        return List.of(
-                new Company(
-                        1L,
-                        "company",
-                        "address",
-                        "description",
-                        9.2,
-                        List.of(LocalDate.of(2020, Month.FEBRUARY, 10)),
-                        List.of(new String("administrator"))
-                )
-        );
+        return companyRepository.findAll();
+    }
+
+    public Company getCompany(Long id){
+        return companyRepository.getReferenceById(id);
     }
 }
