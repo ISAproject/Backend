@@ -5,8 +5,6 @@ import com.example.ISA2023.back.models.irepositories.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.List;
 
 @Service
@@ -24,5 +22,14 @@ public class CompanyService {
 
     public Company getById(Long id){
         return companyRepository.findById(id).orElse(null);
+    }
+
+    public List<Company> getSearchedCompanies(String content,double rating){
+        return companyRepository.findByAddressNameRating(content,rating);
+    }
+
+    public List<Company> getSearchedRatingCompanies(double rating){
+        return companyRepository.findByRating(rating);
+
     }
 }

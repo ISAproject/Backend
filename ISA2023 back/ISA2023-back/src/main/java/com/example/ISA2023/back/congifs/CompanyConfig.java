@@ -32,7 +32,7 @@ public class CompanyConfig {
                     List.of(new String("administrator2"))
             );
 
-            repository.saveAll(List.of(company1, company2));
+            //repository.saveAll(List.of(company1, company2));
         };
     }
 }
