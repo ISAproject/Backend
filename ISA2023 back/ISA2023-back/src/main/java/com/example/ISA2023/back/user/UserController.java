@@ -39,5 +39,8 @@ public class UserController {
     @PutMapping("/{id}")
     public User update(@PathVariable Long id, @RequestBody User updatedUser){return userService.update(id,updatedUser);}
 
-
+    @GetMapping("/companyAdministrators")
+    public List<User> getCompanyAdministrators(){
+        return userService.getCompanyAdministrators();
+    }
 }
