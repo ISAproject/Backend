@@ -46,4 +46,16 @@ public class CompanyController {
 
     @PutMapping("/{id}")
     public Company update(@PathVariable long id, @RequestBody Company company) {return companyService.update(id, company);}
+    @PostMapping
+    public Company create(@RequestBody Company company)
+    {
+        return companyService.create(company);
+    }
+    @RequestMapping(value = "/addadmin/{companyId}/{adminUsername}",
+            produces = "application/json",
+            method=RequestMethod.PUT)
+    public Boolean giveCompanyAdmins(@PathVariable Long companyId, @PathVariable String adminUsername)
+    {
+        return companyService.giveCompanyAdmins(companyId,adminUsername);
+    }
 }

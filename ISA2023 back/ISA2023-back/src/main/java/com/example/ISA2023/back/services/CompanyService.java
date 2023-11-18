@@ -46,4 +46,30 @@ public class CompanyService {
 
         return null;
     }
+    public Company create(Company company)
+    {
+        Company newCompany=new Company(company.getName(), company.getAddress(), company.getDescription(), company.getAvgGrade(),company.getEquipemntsFree(), company.getAdministrators());
+        companyRepository.save(newCompany);
+
+        return newCompany;
+    }
+
+    public Boolean giveCompanyAdmins(Long companyId, String adminName)
+    {
+        try 
+        {
+            var company= companyRepository.findById(companyId);
+            List<String>companyAdmins=company.get().getAdministrators();
+            companyAdmins.add(adminName);
+            company.get().setAdministrators(companyAdmins);
+            companyRepository.save(company.get());
+            return true;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+
+    }
 }
+
