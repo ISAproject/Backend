@@ -29,16 +29,6 @@ public class User {
     private String tel_number;
     private String occupation;
     private String company_info;
-    public UserRole getRole() {
-        return role;
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
-    }
-
-    private UserRole role;
-
     private UserRole role;
 
     public User() {

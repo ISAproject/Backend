@@ -54,8 +54,8 @@ public class CompanyController {
     @RequestMapping(value = "/addadmin/{companyId}/{adminUsername}",
             produces = "application/json",
             method=RequestMethod.PUT)
-    public Boolean giveCompanyAdmins(@PathVariable Long companyId, @PathVariable String adminUsername)
+    public Boolean giveCompanyAdmins(@PathVariable Long companyId, @PathVariable Long adminId)
     {
-        return companyService.giveCompanyAdmins(companyId,adminUsername);
+        return companyService.giveCompanyAdmins(companyId,adminId);
     }
 }
