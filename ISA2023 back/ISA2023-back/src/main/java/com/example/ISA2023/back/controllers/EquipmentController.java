@@ -22,11 +22,19 @@ public class EquipmentController {
     @GetMapping("/filtergrade")
     public List<Equipment> findEqupmentByGrade(@RequestBody double rating)
     {
+        List<Equipment> r=equipmentService.findEqupmentByGrade(rating);
         return equipmentService.findEqupmentByGrade(rating);
     }
     @GetMapping("/filtertype")
     public List<Equipment> findEqupmentByEquipmentType(@RequestBody EquipmentType equipmentType)
     {
+        List<Equipment> r=equipmentService.findEqupmentByEquipmentType(equipmentType);
         return equipmentService.findEqupmentByEquipmentType(equipmentType);
+    }
+    @GetMapping("/searchbyname")
+    public List<Equipment> findEqupmentByName(@RequestBody String name)
+    {
+        List<Equipment> r=equipmentService.findEqupmentByName(name);
+        return equipmentService.findEqupmentByName(name);
     }
 }

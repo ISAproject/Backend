@@ -29,4 +29,8 @@ public class EquipmentService {
     {
         return equipmentRepository.findEqupmentByEquipmentType(eqtype);
     }
+    public List<Equipment> findEqupmentByName(String name)
+    {
+        return equipmentRepository.findEqupmentByName(name.toLowerCase());
+    }
 }
