@@ -20,7 +20,9 @@ public class UserService {
     public User findById(Long id){
         return userRepository.findById(id).orElse(null);
     }
-
+    public User save(User user){
+        return userRepository.save(user);
+    }
     public User update(Long id,User updatedUser){
         Optional<User> optionalUser= userRepository.findById(id);
         if (optionalUser.isPresent()) {
@@ -31,5 +33,8 @@ public class UserService {
         }
 
         return null;
+    }
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email);
     }
 }
