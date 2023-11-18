@@ -2,6 +2,9 @@ package com.example.ISA2023.back.user;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
+import java.util.List;
+
 @Entity
 @Table(name = "\"user\"")
 public class User {
@@ -25,14 +28,22 @@ public class User {
     private String city;
     private String tel_number;
     private String occupation;
-
     private String company_info;
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
+    private UserRole role;
 
     public User() {
     }
 
     public User(String username, String email, String password, String first_name, String last_name,
-                String state, String city, String tel_number, String occupation, String company_info) {
+                String state, String city, String tel_number, String occupation, String company_info, UserRole role) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -43,10 +54,11 @@ public class User {
         this.tel_number = tel_number;
         this.occupation = occupation;
         this.company_info = company_info;
+        this.role = role;
     }
 
     public User(Long id, String username, String email, String password, String first_name, String last_name, String state,
-                String city, String tel_number, String occupation, String company_info) {
+                String city, String tel_number, String occupation, String company_info, UserRole role) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -58,6 +70,7 @@ public class User {
         this.tel_number = tel_number;
         this.occupation = occupation;
         this.company_info = company_info;
+        this.role = role;
     }
 
     public Long getId() {
@@ -68,9 +81,6 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -83,6 +93,8 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+  
 
     public String getPassword() {
         return password;

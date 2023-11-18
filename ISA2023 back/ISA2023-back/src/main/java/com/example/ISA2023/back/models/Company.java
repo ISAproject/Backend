@@ -3,7 +3,10 @@ package com.example.ISA2023.back.models;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 @Entity
 @Table
