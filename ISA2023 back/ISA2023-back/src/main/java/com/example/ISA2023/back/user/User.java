@@ -29,13 +29,31 @@ public class User {
     private String tel_number;
     private String occupation;
     private String company_info;
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
     private UserRole role;
+
+    public boolean isVerified() {
+        return is_verified;
+    }
+
+    public void setVerified(boolean verified) {
+        is_verified = verified;
+    }
+
+    private boolean is_verified;
 
     public User() {
     }
 
     public User(String username, String email, String password, String first_name, String last_name,
-                String state, String city, String tel_number, String occupation, String company_info, UserRole role) {
+                String state, String city, String tel_number, String occupation, String company_info, UserRole role, boolean isVerified) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -47,10 +65,11 @@ public class User {
         this.occupation = occupation;
         this.company_info = company_info;
         this.role = role;
+        this.is_verified = isVerified;
     }
 
     public User(Long id, String username, String email, String password, String first_name, String last_name, String state,
-                String city, String tel_number, String occupation, String company_info, UserRole role) {
+                String city, String tel_number, String occupation, String company_info, UserRole role, boolean isVerified) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -63,6 +82,7 @@ public class User {
         this.occupation = occupation;
         this.company_info = company_info;
         this.role = role;
+        this.is_verified = isVerified;
     }
 
     public Long getId() {
@@ -73,7 +93,9 @@ public class User {
         this.id = id;
     }
 
-
+    public String getUsername() {
+        return username;
+    }
     public void setUsername(String username) {
         this.username = username;
     }
@@ -150,13 +172,6 @@ public class User {
 
     public void setCompany_info(String company_info) {
         this.company_info = company_info;
-    }
-    public UserRole getRole() {
-        return role;
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
     }
 
     @Override
