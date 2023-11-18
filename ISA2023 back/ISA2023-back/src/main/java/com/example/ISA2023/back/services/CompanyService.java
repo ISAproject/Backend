@@ -32,9 +32,9 @@ public class CompanyService {
         return companyRepository.findByAddressNameRating(content,rating);
     }
 
-    public List<Company> getSearchedRatingCompanies(double rating){
+    public List<Company> getSearchedRatingCompanies(double rating) {
         return companyRepository.findByRating(rating);
-
+    }
     public Company update(long id, Company company){
         Optional<Company> optionalCompany = companyRepository.findById(id);
         if(optionalCompany.isPresent()) {
