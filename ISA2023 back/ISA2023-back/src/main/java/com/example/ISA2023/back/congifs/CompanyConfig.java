@@ -19,8 +19,8 @@ public class CompanyConfig {
                     "address1",
                     "description1",
                     9.2,
-                    List.of(LocalDate.of(2020, Month.FEBRUARY, 10)),
-                    List.of(new String("administrator1"))
+                    List.of(1581289200000L),
+                    List.of(1L)
             );
 
             Company company2 = new Company(
@@ -28,8 +28,8 @@ public class CompanyConfig {
                     "address2",
                     "description2",
                     9.2,
-                    List.of(LocalDate.of(2020, Month.FEBRUARY, 10)),
-                    List.of(new String("administrator2"))
+                    List.of(1581289200000L),
+                    List.of(1L)
             );
 
             //repository.saveAll(List.of(company1, company2));

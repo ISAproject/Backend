@@ -28,11 +28,13 @@ public class User {
 
     private String company_info;
 
+    private UserRole role;
+
     public User() {
     }
 
     public User(String username, String email, String password, String first_name, String last_name,
-                String state, String city, String tel_number, String occupation, String company_info) {
+                String state, String city, String tel_number, String occupation, String company_info, UserRole role) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -43,6 +45,7 @@ public class User {
         this.tel_number = tel_number;
         this.occupation = occupation;
         this.company_info = company_info;
+        this.role = role;
     }
 
     public User(Long id, String username, String email, String password, String first_name, String last_name, String state,
@@ -146,6 +149,13 @@ public class User {
 
     public void setCompany_info(String company_info) {
         this.company_info = company_info;
+    }
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     @Override

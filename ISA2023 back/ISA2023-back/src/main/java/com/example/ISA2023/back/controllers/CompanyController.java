@@ -43,4 +43,7 @@ public class CompanyController {
     @GetMapping("/searchRating/{rating}")
     public List<Company> getSearchedRatingCompanies(@PathVariable double rating){return companyService.getSearchedRatingCompanies(rating);}
 
+
+    @PutMapping("/{id}")
+    public Company update(@PathVariable long id, @RequestBody Company company) {return companyService.update(id, company);}
 }
