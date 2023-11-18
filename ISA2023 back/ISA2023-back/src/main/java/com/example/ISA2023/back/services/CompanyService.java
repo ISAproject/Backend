@@ -48,20 +48,20 @@ public class CompanyService {
     }
     public Company create(Company company)
     {
-        Company newCompany=new Company(company.getName(), company.getAddress(), company.getDescription(), company.getAvgGrade(),company.getEquipemntsFree(), company.getAdministrators());
+        Company newCompany=new Company(company.getName(), company.getAddress(), company.getDescription(), company.getAvgGrade(),company.getEquipemntsFreeMilliseconds(), company.getAdministratorsId());
         companyRepository.save(newCompany);
 
         return newCompany;
     }
 
-    public Boolean giveCompanyAdmins(Long companyId, String adminName)
+    public Boolean giveCompanyAdmins(Long companyId, Long adminId)
     {
         try 
         {
             var company= companyRepository.findById(companyId);
-            List<String>companyAdmins=company.get().getAdministrators();
-            companyAdmins.add(adminName);
-            company.get().setAdministrators(companyAdmins);
+            List<Long>companyAdmins=company.get().getAdministratorsId();
+            companyAdmins.add(adminId);
+            company.get().setAdministratorsId(companyAdmins);
             companyRepository.save(company.get());
             return true;
         }

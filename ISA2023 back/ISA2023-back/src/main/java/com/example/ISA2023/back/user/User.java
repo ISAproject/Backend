@@ -173,13 +173,6 @@ public class User {
     public void setCompany_info(String company_info) {
         this.company_info = company_info;
     }
-    public UserRole getRole() {
-        return role;
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
-    }
 
     @Override
     public String toString() {
