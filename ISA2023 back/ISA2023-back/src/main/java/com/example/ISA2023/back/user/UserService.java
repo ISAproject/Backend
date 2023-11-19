@@ -58,4 +58,8 @@ public class UserService {
     public List<User> getCompanyAdministrators(){
         return userRepository.getCompanyAdministrators();
     }
+    public User getLastUser()
+    {
+        return userRepository.getLastUser();
+    }
 }

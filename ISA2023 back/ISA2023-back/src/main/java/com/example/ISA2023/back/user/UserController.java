@@ -47,4 +47,9 @@ public class UserController {
     public List<User> getCompanyAdministrators(){
         return userService.getCompanyAdministrators();
     }
+    @GetMapping("/getlastuser")
+    public User getLastUser()
+    {
+        return userService.getLastUser();
+    }
 }
