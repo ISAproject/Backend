@@ -2,6 +2,8 @@ package com.example.ISA2023.back.models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "\"equipment\"")
 public class Equipment {
@@ -19,7 +21,17 @@ public class Equipment {
     private String name;
     private Double grade;
     private EquipmentType type;
-    private String Description;
+    private String description;
+    private List<Long> companyId;
+    private Long quantity;
+
+    public Long getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Long quantity) {
+        this.quantity = quantity;
+    }
 
     public Long getId() {
         return id;
@@ -46,26 +58,46 @@ public class Equipment {
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
-    public Equipment(Long id, String name, Double grade, EquipmentType type, String description) {
+    public List<Long> getCompanyId() {
+        return companyId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCompanyId(List<Long> companyId) {
+        this.companyId = companyId;
+    }
+
+    public Equipment(Long id, String name, Double grade, EquipmentType type, String description, List<Long> companyId, Long quantity) {
         this.id = id;
         this.name = name;
         this.grade = grade;
         this.type = type;
-        Description = description;
+        this.description = description;
+        this.companyId=companyId;
+        this.quantity=quantity;
     }
 
-    public Equipment(String name, Double grade, EquipmentType type, String description) {
+    public Equipment(String name, Double grade, EquipmentType type, String description,List<Long> companyId, Long quantity) {
         this.name = name;
         this.grade = grade;
         this.type = type;
-        Description = description;
+        this.description = description;
+        this.companyId=companyId;
+        this.quantity=quantity;
     }
     public Equipment(){}
 }

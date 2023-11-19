@@ -30,6 +30,7 @@ public class Company {
     private List<Long> equipemntsFreeMilliseconds;
     private List<Long> administratorId;
 
+
     public Company() {
     }
 
@@ -107,4 +108,6 @@ public class Company {
     public void setAdministratorsId(List<Long> administratorId) {
         this.administratorId = administratorId;
     }
+
+
 }
