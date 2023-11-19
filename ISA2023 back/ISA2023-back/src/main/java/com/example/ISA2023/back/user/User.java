@@ -29,6 +29,8 @@ public class User {
     private String tel_number;
     private String occupation;
     private String company_info;
+    private UserRole role;
+    private boolean is_verified;
     public UserRole getRole() {
         return role;
     }
@@ -36,8 +38,6 @@ public class User {
     public void setRole(UserRole role) {
         this.role = role;
     }
-
-    private UserRole role;
 
     public boolean isVerified() {
         return is_verified;
@@ -47,7 +47,7 @@ public class User {
         is_verified = verified;
     }
 
-    private boolean is_verified;
+
 
     public User() {
     }
