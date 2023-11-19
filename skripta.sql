@@ -47,14 +47,13 @@ INSERT INTO public.equipment (
     quantity,
     type
 ) VALUES
-    (-1, -1, 'Medical Equipment 1', 4.5, 'Equipment A', 10, 0),
-    (-2, -2, 'Medical Equipment 2', 3.8, 'Equipment B', 15, 1),
-    (-3, -3, 'Medical Equipment 3', 4.2, 'Equipment C', 20, 2),
-    (-4, -4, 'Medical Equipment 4', 3.5, 'Equipment D', 12, 3),
-    (-5, -5, 'Medical Equipment 5', 4.0, 'Equipment E', 8, 0),
-    (-6, -1, 'Medical Equipment 6', 3.9, 'Equipment F', 18, 1),
-    (-7, -2, 'Medical Equipment 7', 4.1, 'Equipment G', 25, 2),
-    (-8, -3, 'Medical Equipment 8', 3.7, 'Equipment H', 14, 3),
-    (-9, -4, 'Medical Equipment 9', 4.3, 'Equipment I', 22, 0),
-    (-10, -5, 'Medical Equipment 10', 3.6, 'Equipment J', 16, 1);
-    
+    (-1, -1, 'Medical Equipment 1', 4.5, 'PulseMaster Pro', 10, 0),
+    (-2, -2, 'Medical Equipment 2', 3.8, 'ScanFlex Elite', 15, 1),
+    (-3, -3, 'Medical Equipment 3', 4.2, 'MediLift Ultra', 20, 2),
+    (-4, -4, 'Medical Equipment 4', 3.5, 'SurgiTech Precision', 12, 3),
+    (-5, -5, 'Medical Equipment 5', 4.0, 'VitaCare Xpress', 8, 0),
+    (-6, -1, 'Medical Equipment 6', 3.9, 'FlexiScan Pro', 18, 1),
+    (-7, -2, 'Medical Equipment 7', 4.1, 'GloboMed FlexiView', 25, 2),
+    (-8, -3, 'Medical Equipment 8', 3.7, 'HealthMaster Precision', 14, 3),
+    (-9, -4, 'Medical Equipment 9', 4.3, 'SonoCare Ultra', 22, 0),
+    (-10, -5, 'Medical Equipment 10', 3.6, 'CareTech Insight', 16, 1);
