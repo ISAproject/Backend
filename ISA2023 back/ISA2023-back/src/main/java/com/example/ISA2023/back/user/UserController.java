@@ -20,12 +20,16 @@ public class UserController {
     @PostMapping("/add")
     public User addUnverified(@RequestBody User user){
         user.setVerified(false);
-        return userService.save(user);
+        User savedUser = userService.save(user);
+        userService.sendVerificationEmail(savedUser);
+
+        return savedUser;
     }
-    @PostMapping("/verify/{id}")
-    public User verify(@PathVariable Long id, @RequestBody User verifiedUser){
-        verifiedUser.setVerified(true);
-        return userService.update(id, verifiedUser);
+    @GetMapping("/verify/{id}")
+    public User verify(@PathVariable Long id){
+        User user = userService.findById(id);
+        user.setVerified(true);
+        return userService.update(id, user);
     }
     @GetMapping("email/{email}")
     public User getByEmail(@PathVariable String email){
