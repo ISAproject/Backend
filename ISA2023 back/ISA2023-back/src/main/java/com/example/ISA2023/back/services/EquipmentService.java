@@ -33,4 +33,8 @@ public class EquipmentService {
     {
         return equipmentRepository.findEqupmentByName(name.toLowerCase());
     }
+
+    public List<Equipment> findEquipmentByCompanyId(Long id){
+        return equipmentRepository.findEquipmentByCompanyId(id);
+    }
 }

@@ -39,6 +39,8 @@ public class CompanyService {
         Optional<Company> optionalCompany = companyRepository.findById(id);
         if(optionalCompany.isPresent()) {
             var existingCompany = optionalCompany.get();
+            existingCompany.setAdministratorsId(null);
+            existingCompany.setEquipemntsFreeMilliseconds(null);
             modelMapper.map(company, existingCompany);
             companyRepository.save(existingCompany);
             return existingCompany;
