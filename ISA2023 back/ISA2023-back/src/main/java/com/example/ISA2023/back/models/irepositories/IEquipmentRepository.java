@@ -12,12 +12,21 @@ import java.util.List;
 @Repository
 public interface IEquipmentRepository extends JpaRepository<Equipment, Long > {
     @Query("SELECT e FROM Equipment e WHERE e.grade>?1")
-    List<Equipment> findEqupmentByGrade(double rating);
+    List<Equipment> findEquipmentByGrade(double rating);
     @Query("SELECT e FROM Equipment e WHERE e.type=?1")
-    List<Equipment> findEqupmentByEquipmentType(EquipmentType et);
+    List<Equipment> findEquipmentByEquipmentType(EquipmentType et);
     @Query("SELECT e FROM Equipment e WHERE LOWER(e.name) LIKE ?1%")
     List<Equipment> findEqupmentByName(String name);
 
     @Query("SELECT e From Equipment e WHERE e.companyId = ?1")
     List<Equipment> findEquipmentByCompanyId(Long id);
+    List<Equipment> findEquipmentByName(String name);
+    @Query(value = "SELECT * FROM Equipment e WHERE :companyId = ANY(e.company_id)", nativeQuery = true)
+    List<Equipment> findEquipmentByCompany( Long companyId);
+    @Query("SELECT e FROM Equipment e")
+    List<Equipment> GetAllEquipment();
+    @Query("SELECT e FROM Equipment e WHERE e.id=?1")
+    Equipment GetEquipmentById(Long id);
+    @Query("SELECT e FROM Equipment e WHERE LOWER(e.name) LIKE ?1% AND e.grade>=?2")
+    List<Equipment> findEquipmentByNameAndRating(String name, double rating);
 }

@@ -21,17 +21,33 @@ public class EquipmentService {
         this.equipmentRepository = equipmentRepository;
     }
 
-    public List<Equipment> findEqupmentByGrade(double rating)
+    public List<Equipment> findEquipmentByGrade(double rating)
     {
-        return equipmentRepository.findEqupmentByGrade(rating);
+        return equipmentRepository.findEquipmentByGrade(rating);
     }
-    public List<Equipment> findEqupmentByEquipmentType(EquipmentType eqtype)
+    public List<Equipment> findEquipmentByEquipmentType(EquipmentType eqtype)
     {
-        return equipmentRepository.findEqupmentByEquipmentType(eqtype);
+        return equipmentRepository.findEquipmentByEquipmentType(eqtype);
     }
-    public List<Equipment> findEqupmentByName(String name)
+    public List<Equipment> findEquipmentByName(String name)
     {
-        return equipmentRepository.findEqupmentByName(name.toLowerCase());
+        return equipmentRepository.findEquipmentByName(name.toLowerCase());
+    }
+    public List<Equipment> findEquipmentByCompany(Long companyId)
+    {
+        return equipmentRepository.findEquipmentByCompany(companyId);
+    }
+    public List<Equipment> GetAllEquipment()
+    {
+        return equipmentRepository.GetAllEquipment();
+    }
+    public Equipment GetEquipmentById(Long id)
+    {
+        return equipmentRepository.GetEquipmentById(id);
+    }
+    public List<Equipment> findEquipmentByNameAndRating(String name, double rating)
+    {
+        return equipmentRepository.findEquipmentByNameAndRating(name,rating);
     }
 
     public List<Equipment> findEquipmentByCompanyId(Long id){

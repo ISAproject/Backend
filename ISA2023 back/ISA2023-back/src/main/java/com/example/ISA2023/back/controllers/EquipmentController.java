@@ -19,23 +19,43 @@ public class EquipmentController {
         this.equipmentService = equipmentService;
     }
 
-    @GetMapping("/filtergrade")
-    public List<Equipment> findEqupmentByGrade(@RequestBody double rating)
+    @GetMapping("/filtergrade/{rating}")
+    public List<Equipment> findEquipmentByGrade(@PathVariable double rating)
     {
-        List<Equipment> r=equipmentService.findEqupmentByGrade(rating);
-        return equipmentService.findEqupmentByGrade(rating);
+        List<Equipment> r=equipmentService.findEquipmentByGrade(rating);
+        return equipmentService.findEquipmentByGrade(rating);
     }
-    @GetMapping("/filtertype")
-    public List<Equipment> findEqupmentByEquipmentType(@RequestBody EquipmentType equipmentType)
+    @GetMapping("/filtertype/{equipmentType}")
+    public List<Equipment> findEquipmentByEquipmentType(@PathVariable EquipmentType equipmentType)
     {
-        List<Equipment> r=equipmentService.findEqupmentByEquipmentType(equipmentType);
-        return equipmentService.findEqupmentByEquipmentType(equipmentType);
+        List<Equipment> r=equipmentService.findEquipmentByEquipmentType(equipmentType);
+        return equipmentService.findEquipmentByEquipmentType(equipmentType);
     }
-    @GetMapping("/searchbyname")
-    public List<Equipment> findEqupmentByName(@RequestBody String name)
+    @GetMapping("/searchbyname/{name}")
+    public List<Equipment> findEquipmentByName(@PathVariable String name)
     {
-        List<Equipment> r=equipmentService.findEqupmentByName(name);
-        return equipmentService.findEqupmentByName(name);
+        List<Equipment> r=equipmentService.findEquipmentByName(name);
+        return equipmentService.findEquipmentByName(name);
+    }
+    @GetMapping("/searchbycompany/{companyId}")
+    public List<Equipment> findEquipmentByCompany(@PathVariable Long companyId)
+    {
+        return equipmentService.findEquipmentByCompany(companyId);
+    }
+    @GetMapping()
+    public List<Equipment> GetAllEquipment()
+    {
+        return equipmentService.GetAllEquipment();
+    }
+    @GetMapping("/{id}")
+    public Equipment GetEquipmentById(@PathVariable Long id)
+    {
+        return equipmentService.GetEquipmentById(id);
+    }
+    @GetMapping("/{name}/{rating}")
+    List<Equipment> findEquipmentByNameAndRating(@PathVariable String name, @PathVariable double rating)
+    {
+        return  equipmentService.findEquipmentByNameAndRating(name,rating);
     }
 
     @GetMapping("/forCompany/{id}")
