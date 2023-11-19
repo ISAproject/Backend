@@ -17,4 +17,7 @@ public interface IEquipmentRepository extends JpaRepository<Equipment, Long > {
     List<Equipment> findEqupmentByEquipmentType(EquipmentType et);
     @Query("SELECT e FROM Equipment e WHERE LOWER(e.name) LIKE ?1%")
     List<Equipment> findEqupmentByName(String name);
+
+    @Query("SELECT e From Equipment e WHERE e.companyId = ?1")
+    List<Equipment> findEquipmentByCompanyId(Long id);
 }

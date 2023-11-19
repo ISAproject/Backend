@@ -22,8 +22,16 @@ public class Equipment {
     private Double grade;
     private EquipmentType type;
     private String description;
-    private List<Long> companyId;
+    private Long companyId;
     private Long quantity;
+
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
+    }
 
     public Long getQuantity() {
         return quantity;
@@ -65,9 +73,7 @@ public class Equipment {
         this.description = description;
     }
 
-    public List<Long> getCompanyId() {
-        return companyId;
-    }
+
 
     public String getName() {
         return name;
@@ -77,11 +83,9 @@ public class Equipment {
         this.name = name;
     }
 
-    public void setCompanyId(List<Long> companyId) {
-        this.companyId = companyId;
-    }
 
-    public Equipment(Long id, String name, Double grade, EquipmentType type, String description, List<Long> companyId, Long quantity) {
+
+    public Equipment(Long id, String name, Double grade, EquipmentType type, String description, Long companyId, Long quantity) {
         this.id = id;
         this.name = name;
         this.grade = grade;
@@ -91,7 +95,7 @@ public class Equipment {
         this.quantity=quantity;
     }
 
-    public Equipment(String name, Double grade, EquipmentType type, String description,List<Long> companyId, Long quantity) {
+    public Equipment(String name, Double grade, EquipmentType type, String description, Long companyId, Long quantity) {
         this.name = name;
         this.grade = grade;
         this.type = type;

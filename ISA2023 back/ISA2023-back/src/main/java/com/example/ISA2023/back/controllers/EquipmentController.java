@@ -37,4 +37,9 @@ public class EquipmentController {
         List<Equipment> r=equipmentService.findEqupmentByName(name);
         return equipmentService.findEqupmentByName(name);
     }
+
+    @GetMapping("/forCompany/{id}")
+    public  List<Equipment> findEquipmentByCompanyId(@PathVariable Long id){
+        return equipmentService.findEquipmentByCompanyId(id);
+    }
 }
