@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long > {
-    @Query("SELECT c FROM Company c WHERE LOWER(c.name) LIKE LOWER('%' || ?1 || '%') OR LOWER(c.address) LIKE LOWER('%' || ?1 || '%') AND c.avgGrade>=?2")
+    @Query("SELECT c FROM Company c WHERE (LOWER(c.name) LIKE LOWER('%' || ?1 || '%') OR LOWER(c.address) LIKE LOWER('%' || ?1 || '%')) AND c.avgGrade>=?2")
     List<Company> findByAddressNameRating(String content,double rating);
 
     @Query("SELECT c FROM Company c WHERE c.avgGrade>=?1")
