@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface IUserRepository extends JpaRepository<User,Long> {
@@ -14,4 +15,6 @@ public interface IUserRepository extends JpaRepository<User,Long> {
     public List<User> getCompanyAdministrators();
     @Query("SELECT u FROM User u ORDER BY u.id DESC LIMIT 1")
     public User getLastUser();
+
+    Optional<User> findByUsername(String email);
 }
