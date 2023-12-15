@@ -27,29 +27,29 @@ public class Company {
     private String address;
     private String description;
     private Double avgGrade;
-    private List<Long> equipemntsFreeMilliseconds;
+    private List<Long> predefinedDatesId;
     private List<Long> administratorId;
 
 
     public Company() {
     }
 
-    public Company(Long id, String name, String address, String description, Double avgGrade, List<Long> equipemntsFreeMilliseconds, List<Long> administratorId) {
+    public Company(Long id, String name, String address, String description, Double avgGrade, List<Long> predefinedDatesId, List<Long> administratorId) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.description = description;
         this.avgGrade = avgGrade;
-        this.equipemntsFreeMilliseconds = equipemntsFreeMilliseconds;
+        this.predefinedDatesId = predefinedDatesId;
         this.administratorId = administratorId;
     }
 
-    public Company(String name, String address, String description, Double avgGrade, List<Long> equipemntsFreeMilliseconds, List<Long> administratorId) {
+    public Company(String name, String address, String description, Double avgGrade, List<Long> predefinedDatesId, List<Long> administratorId) {
         this.name = name;
         this.address = address;
         this.description = description;
         this.avgGrade = avgGrade;
-        this.equipemntsFreeMilliseconds = equipemntsFreeMilliseconds;
+        this.predefinedDatesId = predefinedDatesId;
         this.administratorId = administratorId;
     }
 
@@ -93,21 +93,19 @@ public class Company {
         this.avgGrade = avgGrade;
     }
 
-    public List<Long> getEquipemntsFreeMilliseconds() {
-        return equipemntsFreeMilliseconds;
+    public List<Long> getPredefinedDatesId() {
+        return predefinedDatesId;
     }
 
-    public void setEquipemntsFreeMilliseconds(List<Long> equipemntsFreeMilliseconds) {
-        this.equipemntsFreeMilliseconds = equipemntsFreeMilliseconds;
+    public void setPredefinedDatesId(List<Long> predefinedDatesId) {
+        this.predefinedDatesId = predefinedDatesId;
     }
 
-    public List<Long> getAdministratorsId() {
+    public List<Long> getAdministratorId() {
         return administratorId;
     }
 
-    public void setAdministratorsId(List<Long> administratorId) {
+    public void setAdministratorId(List<Long> administratorId) {
         this.administratorId = administratorId;
     }
-
-
 }

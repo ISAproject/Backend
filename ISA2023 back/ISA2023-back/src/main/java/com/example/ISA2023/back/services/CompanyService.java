@@ -39,8 +39,8 @@ public class CompanyService {
         Optional<Company> optionalCompany = companyRepository.findById(id);
         if(optionalCompany.isPresent()) {
             var existingCompany = optionalCompany.get();
-            existingCompany.setAdministratorsId(null);
-            existingCompany.setEquipemntsFreeMilliseconds(null);
+            existingCompany.setAdministratorId(null);
+            existingCompany.setPredefinedDatesId(null);
             modelMapper.map(company, existingCompany);
             companyRepository.save(existingCompany);
             return existingCompany;
@@ -50,7 +50,7 @@ public class CompanyService {
     }
     public Company create(Company company)
     {
-        Company newCompany=new Company(company.getName(), company.getAddress(), company.getDescription(), company.getAvgGrade(),company.getEquipemntsFreeMilliseconds(), company.getAdministratorsId());
+        Company newCompany=new Company(company.getName(), company.getAddress(), company.getDescription(), company.getAvgGrade(),company.getPredefinedDatesId(), company.getAdministratorId());
         companyRepository.save(newCompany);
 
         return newCompany;
@@ -61,9 +61,9 @@ public class CompanyService {
         try 
         {
             var company= companyRepository.findById(companyId);
-            List<Long>companyAdmins=company.get().getAdministratorsId();
+            List<Long>companyAdmins=company.get().getAdministratorId();
             companyAdmins.add(adminId);
-            company.get().setAdministratorsId(companyAdmins);
+            company.get().setAdministratorId(companyAdmins);
             companyRepository.save(company.get());
             return true;
         }
