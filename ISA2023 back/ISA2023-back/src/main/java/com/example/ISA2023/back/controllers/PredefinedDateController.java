@@ -1,11 +1,13 @@
 package com.example.ISA2023.back.controllers;
 
+import com.example.ISA2023.back.models.PredefinedDate;
 import com.example.ISA2023.back.services.CompanyService;
 import com.example.ISA2023.back.services.PredefinedDateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -15,5 +17,10 @@ public class PredefinedDateController {
     @Autowired
     public PredefinedDateController(PredefinedDateService predefinedDateService) {
         this.predefinedDateService = predefinedDateService;
+    }
+
+    @PostMapping
+    public List<PredefinedDate> findAllById(@RequestBody List<Long> listId){
+        return predefinedDateService.findAllById(listId);
     }
 }
