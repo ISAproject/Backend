@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.server.ResponseStatusException;
@@ -31,6 +32,8 @@ public class UserService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Autowired
     public UserService(IUserRepository userRepository) {
         this.userRepository = userRepository;
@@ -86,7 +89,9 @@ public class UserService {
         if (userOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "message: Incorrect credentials!");
         }
-
+        if(!passwordEncoder.matches(loginDto.getPassword(), userOpt.get().getPassword())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "message: Incorrect password!");
+        }
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
@@ -100,6 +105,7 @@ public class UserService {
         UserTokenState tokenDTO = new UserTokenState();
         tokenDTO.setAccessToken(jwt);
         tokenDTO.setExpiresIn(10000000L);
+        tokenDTO.setUsername(loginDto.getUsername());
 
         return tokenDTO;
     }
