@@ -62,4 +62,7 @@ public class EquipmentController {
     public  List<Equipment> findEquipmentByCompanyId(@PathVariable Long id){
         return equipmentService.findEquipmentByCompanyId(id);
     }
+
+
+
 }

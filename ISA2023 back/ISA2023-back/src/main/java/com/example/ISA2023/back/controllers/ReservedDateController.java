@@ -33,6 +33,11 @@ public class ReservedDateController {
     public ReservedDate findById(@PathVariable Long id){
         return reservedDateService.FindById(id);
     }
+    @GetMapping("equipment/{id}")
+    public List<Equipment> findEquipmentByReservationDateId(@PathVariable Long id){
+        return reservedDateService.findEquipmentByReservationDateId(id);
+    }
+
 
     @PostMapping
     public ReservedDate create(@RequestBody ReservedDate reservedDate){

@@ -41,6 +41,11 @@ public class ReservedDateService {
         return reservedDateRepository.save(reservedDate);
     }
 
+    public List<Equipment> findEquipmentByReservationDateId(Long id){
+        List<Long> equipmentIds=reservedDateRepository.findById(id).get().getEquipments();
+        return GetAllEquipments(equipmentIds);
+    }
+
     public List<Equipment> GetAllEquipments(List<Long> equipmentsId){
         List<Equipment> equipments=new ArrayList<>();
         for (Long id:equipmentsId ) {
@@ -49,7 +54,7 @@ public class ReservedDateService {
         return equipments;
     }
     public void sendConfirmationEmail(String email,ReservedDate order){
-        String medium="https://rahul26021999.medium.com/";
+        String medium="http://localhost:3000/qrcode-equipment/"+order.getId();
         byte[] image = new byte[0];
         try {
             image = QRCodeGenerator.getQRCodeImage(medium,250,250);
