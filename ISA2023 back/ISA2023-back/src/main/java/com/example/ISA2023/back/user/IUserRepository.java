@@ -15,6 +15,8 @@ public interface IUserRepository extends JpaRepository<User,Long> {
     public List<User> getCompanyAdministrators();
     @Query("SELECT u FROM User u ORDER BY u.id DESC LIMIT 1")
     public User getLastUser();
+    @Query("SELECT u FROM User u WHERE u.id=?1")
+    public User getUserById(Long id);
 
     Optional<User> findByUsername(String email);
 }

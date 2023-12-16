@@ -37,7 +37,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    public UserService(IUserRepository userRepository) {
+    public UserService(IUserRepository userRepository, CompanyRepository companyRepository) {
         this.userRepository = userRepository;
         this.companyRepository = companyRepository;
     }
@@ -118,5 +118,9 @@ public class UserService {
         tokenDTO.setUsername(loginDto.getUsername());
 
         return tokenDTO;
+    }
+    public User getByUserId(Long id)
+    {
+        return userRepository.getUserById(id);
     }
 }

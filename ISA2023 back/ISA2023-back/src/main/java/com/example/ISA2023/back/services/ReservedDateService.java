@@ -1,9 +1,11 @@
 package com.example.ISA2023.back.services;
 
+import com.example.ISA2023.back.dtos.ReservedDatesDto;
 import com.example.ISA2023.back.models.Equipment;
 import com.example.ISA2023.back.models.ReservedDate;
 import com.example.ISA2023.back.models.irepositories.IEquipmentRepository;
 import com.example.ISA2023.back.models.irepositories.IReservedDateRepository;
+import com.example.ISA2023.back.user.IUserRepository;
 import com.example.ISA2023.back.user.User;
 import com.example.ISA2023.back.utils.QRCodeGenerator;
 import com.google.zxing.WriterException;
@@ -24,17 +26,19 @@ import java.util.List;
 
 @Service
 public class ReservedDateService {
-    private  final IReservedDateRepository reservedDateRepository;
+    private final IReservedDateRepository reservedDateRepository;
     private final IEquipmentRepository equipmentRepository;
+    private final IUserRepository userRepository;
     @Autowired
     private JavaMailSender javaMailSender;
     @Autowired
     private ModelMapper modelMapper;
 
     @Autowired
-    public ReservedDateService(IReservedDateRepository reservedDateRepository,IEquipmentRepository equipmentRepository) {
+    public ReservedDateService(IReservedDateRepository reservedDateRepository,IEquipmentRepository equipmentRepository, IUserRepository userRepository) {
         this.reservedDateRepository = reservedDateRepository;
         this.equipmentRepository=equipmentRepository;
+        this.userRepository=userRepository;
     }
 
     public ReservedDate create(ReservedDate reservedDate){
@@ -87,5 +91,27 @@ public class ReservedDateService {
     }
     public ReservedDate FindById(Long id){
         return reservedDateRepository.findById(id).get();
+    }
+
+    public List<ReservedDatesDto>GetByCompany(long companyId)
+    {
+        List<ReservedDatesDto>allDates= new ArrayList<>();
+        var reservedDates=reservedDateRepository.GetByCompany(companyId);
+        for ( var r :reservedDates) {
+            ReservedDatesDto rd=new ReservedDatesDto();
+            rd.setId(r.getId());
+            rd.setDateTimeInMS(r.getDateTimeInMS());
+            rd.setDuration(r.getDuration());
+            rd.setUserName(userRepository.getUserById(r.getUserId()).getFirst_name());
+            rd.setUserSurname(userRepository.getUserById(r.getUserId()).getLast_name());
+            List<String> equipments=new ArrayList<>();
+            for (var e:r.getEquipments()) {
+                Equipment eq=equipmentRepository.findById(e).get();
+                equipments.add(eq.getName());
+            }
+            rd.setEquipments(equipments);
+            allDates.add(rd);
+        }
+        return allDates;
     }
 }

@@ -24,17 +24,19 @@ public class ReservedDate {
     private List<Long> Equipments;
     private Long Duration;
     private Long CompanyAdminId;
+    private Long CompanyId;
 
     public ReservedDate() {
     }
 
-    public ReservedDate(Long id, Long dateTimeInMS, Long userId, List<Long> equipments, Long duration, Long companyAdminId) {
+    public ReservedDate(Long id, Long dateTimeInMS, Long userId, List<Long> equipments, Long duration, Long companyAdminId,long companyId) {
         Id = id;
         DateTimeInMS = dateTimeInMS;
         UserId = userId;
         Equipments = equipments;
         Duration = duration;
         CompanyAdminId = companyAdminId;
+        CompanyId=companyId;
     }
 
     public ReservedDate(Long dateTimeInMS, Long userId, List<Long> equipments, Long duration, Long companyAdminId) {
@@ -91,5 +93,13 @@ public class ReservedDate {
 
     public void setEquipments(List<Long> equipments) {
         Equipments = equipments;
+    }
+
+    public Long getCompanyId() {
+        return CompanyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        CompanyId = companyId;
     }
 }

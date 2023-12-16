@@ -1,11 +1,13 @@
 package com.example.ISA2023.back.controllers;
 
+import com.example.ISA2023.back.dtos.ReservedDatesDto;
 import com.example.ISA2023.back.models.Equipment;
 import com.example.ISA2023.back.models.ReservedDate;
 import com.example.ISA2023.back.services.ReservedDateService;
 import com.example.ISA2023.back.user.User;
 import com.example.ISA2023.back.utils.QRCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.google.zxing.WriterException;
 import org.springframework.stereotype.Controller;
@@ -45,6 +47,10 @@ public class ReservedDateController {
         reservedDateService.sendConfirmationEmail(email,reservedDate);
         return reservation;
     }
-
-
+    //@PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
+    @GetMapping("alldates/{companyId}")
+    public List<ReservedDatesDto> GetByCompany(@PathVariable Long companyId )
+    {
+        return reservedDateService.GetByCompany(companyId);
+    }
 }
