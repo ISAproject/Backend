@@ -6,6 +6,7 @@ import com.example.ISA2023.back.services.PredefinedDateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -30,5 +31,10 @@ public class PredefinedDateController {
     @DeleteMapping("/{id}/{companyId}")
     public void deleteById(@PathVariable long id, @PathVariable long companyId){
         predefinedDateService.deleteById(id, companyId);
+    }
+
+    @PostMapping
+    public List<PredefinedDate> findAllById(@RequestBody List<Long> listId){
+        return predefinedDateService.findAllById(listId);
     }
 }
