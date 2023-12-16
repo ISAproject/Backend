@@ -1,5 +1,6 @@
 package com.example.ISA2023.back.services;
 
+import com.example.ISA2023.back.models.Company;
 import com.example.ISA2023.back.models.Equipment;
 import com.example.ISA2023.back.models.EquipmentType;
 import com.example.ISA2023.back.models.irepositories.CompanyRepository;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EquipmentService {
@@ -52,5 +54,25 @@ public class EquipmentService {
 
     public List<Equipment> findEquipmentByCompanyId(Long id){
         return equipmentRepository.findEquipmentByCompanyId(id);
+    }
+
+    public Equipment create(Equipment equipment){
+        return equipmentRepository.save(equipment);
+    }
+
+    public void delete(long id){
+        equipmentRepository.deleteById(id);
+    }
+
+    public Equipment update(long id,Equipment equipment){
+        Optional<Equipment> optionalEquipment = equipmentRepository.findById(id);
+        if(optionalEquipment.isPresent()) {
+            var existingEquipment = optionalEquipment.get();
+            modelMapper.map(equipment, existingEquipment);
+            equipmentRepository.save(existingEquipment);
+            return existingEquipment;
+        }
+
+        return null;
     }
 }

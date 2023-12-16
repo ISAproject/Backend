@@ -44,7 +44,7 @@ public class PredefinedDateService {
 
         company.setPredefinedDatesId(predefineDatesId
                                         .stream().filter(p -> !p.equals(id)).toList());
-        
+
         companyService.update(companyId, company);
     }
 }
