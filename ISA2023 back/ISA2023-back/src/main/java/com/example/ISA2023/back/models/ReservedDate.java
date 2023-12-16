@@ -22,21 +22,43 @@ public class ReservedDate {
     private Long DateTimeInMS;
     private Long UserId;
     private List<Long> Equipments;
+    private Long Duration;
+    private Long CompanyAdminId;
 
     public ReservedDate() {
     }
 
-    public ReservedDate(Long id, Long dateTimeInMS, Long userId, List<Long> equipments) {
+    public ReservedDate(Long id, Long dateTimeInMS, Long userId, List<Long> equipments, Long duration, Long companyAdminId) {
         Id = id;
         DateTimeInMS = dateTimeInMS;
         UserId = userId;
         Equipments = equipments;
+        Duration = duration;
+        CompanyAdminId = companyAdminId;
     }
 
-    public ReservedDate(Long dateTimeInMS, Long userId, List<Long> equipments) {
+    public ReservedDate(Long dateTimeInMS, Long userId, List<Long> equipments, Long duration, Long companyAdminId) {
         DateTimeInMS = dateTimeInMS;
         UserId = userId;
         Equipments = equipments;
+        Duration = duration;
+        CompanyAdminId = companyAdminId;
+    }
+
+    public void setDuration(Long duration) {
+        Duration = duration;
+    }
+
+    public void setCompanyAdminId(Long companyAdminId) {
+        CompanyAdminId = companyAdminId;
+    }
+
+    public Long getDuration() {
+        return Duration;
+    }
+
+    public Long getCompanyAdminId() {
+        return CompanyAdminId;
     }
 
     public Long getId() {
