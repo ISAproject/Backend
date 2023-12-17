@@ -1,6 +1,7 @@
 package com.example.ISA2023.back.controllers;
 
 import com.example.ISA2023.back.dtos.ReservedDatesDto;
+import com.example.ISA2023.back.dtos.ReservedDatesForCalendarDto;
 import com.example.ISA2023.back.models.Equipment;
 import com.example.ISA2023.back.models.ReservedDate;
 import com.example.ISA2023.back.services.ReservedDateService;
@@ -65,28 +66,28 @@ public class ReservedDateController {
     }
     @GetMapping("alldates/{companyId}")
     @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
-    public List<ReservedDatesDto> GetByCompany(@PathVariable Long companyId )
+    public List<ReservedDatesForCalendarDto> GetByCompany(@PathVariable Long companyId )
     {
         return reservedDateService.GetByCompany(companyId);
     }
 
     @GetMapping("weekly/{companyId}")
     @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
-    public List<ReservedDatesDto> GetByCompanyByWeek(@PathVariable Long companyId )
+    public List<ReservedDatesForCalendarDto> GetByCompanyByWeek(@PathVariable Long companyId )
     {
         return reservedDateService.GetByCompanyByWeek(companyId);
     }
 
     @GetMapping("monthly/{companyId}/{month}/{year}")
     @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
-    public List<ReservedDatesDto> GetByCompanyByMonth(@PathVariable Long companyId, @PathVariable int month, @PathVariable int year )
+    public List<ReservedDatesForCalendarDto> GetByCompanyByMonth(@PathVariable Long companyId, @PathVariable int month, @PathVariable int year )
     {
         return reservedDateService.GetByCompanyByMonth(companyId,month,year);
     }
 
     @GetMapping("yearly/{companyId}/{year}")
     @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
-    public List<ReservedDatesDto> GetByCompanyByYear(@PathVariable Long companyId, @PathVariable int year )
+    public List<ReservedDatesForCalendarDto> GetByCompanyByYear(@PathVariable Long companyId, @PathVariable int year )
     {
         return reservedDateService.GetByCompanyByYear(companyId,year);
     }

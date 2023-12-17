@@ -1,6 +1,7 @@
 package com.example.ISA2023.back.services;
 
 import com.example.ISA2023.back.dtos.ReservedDatesDto;
+import com.example.ISA2023.back.dtos.ReservedDatesForCalendarDto;
 import com.example.ISA2023.back.models.Company;
 import com.example.ISA2023.back.models.Equipment;
 import com.example.ISA2023.back.models.ReservedDate;
@@ -114,12 +115,12 @@ public class ReservedDateService {
     }
 
 
-    public List<ReservedDatesDto>GetByCompany(long companyId)
+    public List<ReservedDatesForCalendarDto>GetByCompany(long companyId)
     {
-        List<ReservedDatesDto>allDates= new ArrayList<>();
+        List<ReservedDatesForCalendarDto>allDates= new ArrayList<>();
         var reservedDates=reservedDateRepository.GetByCompany(companyId);
         for ( var r :reservedDates) {
-            ReservedDatesDto rd=new ReservedDatesDto();
+            ReservedDatesForCalendarDto rd=new ReservedDatesForCalendarDto();
             rd.setId(r.getId());
             rd.setDateTimeInMS(r.getDateTimeInMS());
             rd.setDuration(r.getDuration());
@@ -136,22 +137,22 @@ public class ReservedDateService {
         return allDates;
     }
 
-    public List<ReservedDatesDto>GetByCompanyByWeek(long companyId)
+    public List<ReservedDatesForCalendarDto>GetByCompanyByWeek(long companyId)
     {
-        List<ReservedDatesDto> allDates=GetByCompany(companyId);
+        List<ReservedDatesForCalendarDto> allDates=GetByCompany(companyId);
         Long currentTime= new Date().getTime();
         Long week=currentTime+1000*60*60*24*7;
-        List<ReservedDatesDto> datesWeek=new ArrayList<>();
+        List<ReservedDatesForCalendarDto> datesWeek=new ArrayList<>();
         for (var date:allDates) {
             if(date.getDateTimeInMS()<week && date.getDateTimeInMS()>currentTime)
                 datesWeek.add(date);
         }
         return datesWeek;
     }
-    public List<ReservedDatesDto>GetByCompanyByMonth(long companyId, int month, int year)
+    public List<ReservedDatesForCalendarDto>GetByCompanyByMonth(long companyId, int month, int year)
     {
-        List<ReservedDatesDto> allDates=GetByCompany(companyId);
-        List<ReservedDatesDto> datesMonth=new ArrayList<>();
+        List<ReservedDatesForCalendarDto> allDates=GetByCompany(companyId);
+        List<ReservedDatesForCalendarDto> datesMonth=new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
@@ -192,10 +193,10 @@ public class ReservedDateService {
         }
         return datesMonth;
     }
-    public List<ReservedDatesDto>GetByCompanyByYear(long companyId, int year)
+    public List<ReservedDatesForCalendarDto>GetByCompanyByYear(long companyId, int year)
     {
-        List<ReservedDatesDto> allDates=GetByCompany(companyId);
-        List<ReservedDatesDto> datesMonth=new ArrayList<>();
+        List<ReservedDatesForCalendarDto> allDates=GetByCompany(companyId);
+        List<ReservedDatesForCalendarDto> datesMonth=new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, 0);
