@@ -1,7 +1,10 @@
 package com.example.ISA2023.back.services;
 
+import com.example.ISA2023.back.dtos.ReservedDatesDto;
+import com.example.ISA2023.back.models.Company;
 import com.example.ISA2023.back.models.Equipment;
 import com.example.ISA2023.back.models.ReservedDate;
+import com.example.ISA2023.back.models.irepositories.CompanyRepository;
 import com.example.ISA2023.back.models.irepositories.IEquipmentRepository;
 import com.example.ISA2023.back.models.irepositories.IReservedDateRepository;
 import com.example.ISA2023.back.user.User;
@@ -26,15 +29,18 @@ import java.util.List;
 public class ReservedDateService {
     private  final IReservedDateRepository reservedDateRepository;
     private final IEquipmentRepository equipmentRepository;
+
+    private final CompanyRepository companyRepository;
     @Autowired
     private JavaMailSender javaMailSender;
     @Autowired
     private ModelMapper modelMapper;
 
     @Autowired
-    public ReservedDateService(IReservedDateRepository reservedDateRepository,IEquipmentRepository equipmentRepository) {
+    public ReservedDateService(IReservedDateRepository reservedDateRepository,IEquipmentRepository equipmentRepository,CompanyRepository companyRepository) {
         this.reservedDateRepository = reservedDateRepository;
         this.equipmentRepository=equipmentRepository;
+        this.companyRepository=companyRepository;
     }
 
     public List<ReservedDate> getAll() { return reservedDateRepository.findAll();}
@@ -94,8 +100,15 @@ public class ReservedDateService {
     public ReservedDate FindById(Long id){
         return reservedDateRepository.findById(id).get();
     }
-    public List<ReservedDate> getReservedDatesByUserId(Long userId) {
-        return reservedDateRepository.findAllByUserId(userId);
+    public List<ReservedDatesDto> getReservedDatesByUserId(Long userId) {
+        List<ReservedDate> reservedList=reservedDateRepository.findAllByUserId(userId);
+        List<ReservedDatesDto> datesDto=new ArrayList<>();
+        for (var item:reservedList) {
+            Company company=companyRepository.findById(-1L).get();
+            datesDto.add(new ReservedDatesDto(item.getDuration(),item.getDateTimeInMS(),company.getName()));
+        }
+        return datesDto;
+
     }
 
 }
