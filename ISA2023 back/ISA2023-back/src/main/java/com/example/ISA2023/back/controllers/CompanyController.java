@@ -32,7 +32,6 @@ public class CompanyController {
     @PreAuthorize("hasAnyAuthority('ROLL_USER', 'ROLL_SYSTEM_ADMIN', 'ROLL_COMPANY_ADMIN')")
     public List<Company> getAll(){return companyService.getCompanies();}
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('ROLL_USER', 'ROLL_SYSTEM_ADMIN', 'ROLL_COMPANY_ADMIN')")
     public List<Company> getCompanies(){
         return companyService.getCompanies();
     }
