@@ -31,7 +31,7 @@ public class ReservedDate {
     public ReservedDate() {
     }
 
-    public ReservedDate(Long id, Long dateTimeInMS, Long userId, List<Long> equipments, Long duration, Long companyAdminId, Boolean isPickedUp) {
+    public ReservedDate(Long id, Long dateTimeInMS, Long userId, List<Long> equipments, Long duration, Long companyAdminId, Boolean isPickedUp,Long companyId) {
         Id = id;
         DateTimeInMS = dateTimeInMS;
         this.userId = userId;
