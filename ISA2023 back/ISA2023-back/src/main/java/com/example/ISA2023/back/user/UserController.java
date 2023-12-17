@@ -58,4 +58,10 @@ public class UserController {
         return userService.findByUsername(username)
                           .orElseThrow();
     }
+
+    @PutMapping("/ispasschanged/{username}")
+    public Boolean isPasswordChanged(@PathVariable String username)
+    {
+        return userService.isPasswordChanges(username);
+    }
 }
