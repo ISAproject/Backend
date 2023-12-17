@@ -53,4 +53,19 @@ public class ReservedDateController {
     {
         return reservedDateService.GetByCompany(companyId);
     }
+    @GetMapping("weekly/{companyId}")
+    public List<ReservedDatesDto> GetByCompanyByWeek(@PathVariable Long companyId )
+    {
+        return reservedDateService.GetByCompanyByWeek(companyId);
+    }
+    @GetMapping("monthly/{companyId}/{month}/{year}")
+    public List<ReservedDatesDto> GetByCompanyByMonth(@PathVariable Long companyId, @PathVariable int month, @PathVariable int year )
+    {
+        return reservedDateService.GetByCompanyByMonth(companyId,month,year);
+    }
+    @GetMapping("yearly/{companyId}/{year}")
+    public List<ReservedDatesDto> GetByCompanyByYear(@PathVariable Long companyId, @PathVariable int year )
+    {
+        return reservedDateService.GetByCompanyByYear(companyId,year);
+    }
 }

@@ -20,9 +20,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 public class ReservedDateService {
@@ -113,5 +112,86 @@ public class ReservedDateService {
             allDates.add(rd);
         }
         return allDates;
+    }
+
+    public List<ReservedDatesDto>GetByCompanyByWeek(long companyId)
+    {
+        List<ReservedDatesDto> allDates=GetByCompany(companyId);
+        Long currentTime= new Date().getTime();
+        Long week=currentTime+1000*60*60*24*7;
+        List<ReservedDatesDto> datesWeek=new ArrayList<>();
+        for (var date:allDates) {
+            if(date.getDateTimeInMS()<week && date.getDateTimeInMS()>currentTime)
+                datesWeek.add(date);
+        }
+        return datesWeek;
+    }
+    public List<ReservedDatesDto>GetByCompanyByMonth(long companyId, int month, int year)
+    {
+        List<ReservedDatesDto> allDates=GetByCompany(companyId);
+        List<ReservedDatesDto> datesMonth=new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+
+
+        Date start= calendar.getTime();
+        //Date start=new Date(year,month,1);
+        Date end;
+        int daniV[]={0,2,4,6,7,9,11};
+        if(month==1)
+        {
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH, 28);
+            end=calendar.getTime();
+        }
+        else
+            if(Arrays.asList(daniV).contains(month))
+            {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, 31);
+                end=calendar.getTime();
+            }
+
+            else
+            {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, 30);
+                end=calendar.getTime();
+            }
+        for (var date:allDates) {
+
+            if(date.getDateTimeInMS()>=start.getTime() && date.getDateTimeInMS()<=end.getTime())
+                datesMonth.add(date);
+        }
+        return datesMonth;
+    }
+    public List<ReservedDatesDto>GetByCompanyByYear(long companyId, int year)
+    {
+        List<ReservedDatesDto> allDates=GetByCompany(companyId);
+        List<ReservedDatesDto> datesMonth=new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, 0);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+
+
+        Date start= calendar.getTime();
+        //Date start=new Date(year,month,1);
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, 11);
+        calendar.set(Calendar.DAY_OF_MONTH, 31);
+        Date end=calendar.getTime();
+
+        for (var date:allDates) {
+
+            if(date.getDateTimeInMS()>=start.getTime() && date.getDateTimeInMS()<=end.getTime())
+                datesMonth.add(date);
+        }
+        return datesMonth;
     }
 }
