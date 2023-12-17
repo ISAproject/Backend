@@ -2,6 +2,7 @@ package com.example.ISA2023.back.user;
 
 import com.example.ISA2023.back.dtos.JwtAuthenticationRequest;
 import com.example.ISA2023.back.dtos.UserTokenState;
+import com.example.ISA2023.back.models.Company;
 import com.example.ISA2023.back.security.JwtUtils;
 import com.example.ISA2023.back.models.irepositories.CompanyRepository;
 import org.modelmapper.ModelMapper;
@@ -125,5 +126,19 @@ public class UserService {
     public User getByUserId(Long id)
     {
         return userRepository.getUserById(id);
+    }
+
+    public User updateCompanyAdmin(Long id,User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        Optional<User> optionalUser = userRepository.findById(id);
+        if(optionalUser.isPresent()) {
+            var existingUser = optionalUser.get();
+            modelMapper.map(user, existingUser);
+            userRepository.save(existingUser);
+            return existingUser;
+        }
+
+        return null;
     }
 }

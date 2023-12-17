@@ -4,6 +4,7 @@ import com.example.ISA2023.back.models.Equipment;
 import com.example.ISA2023.back.models.EquipmentType;
 import com.example.ISA2023.back.services.EquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,6 +39,7 @@ public class EquipmentController {
         return equipmentService.findEquipmentByName(name);
     }
     @GetMapping("/searchbycompany/{companyId}")
+
     public List<Equipment> findEquipmentByCompany(@PathVariable Long companyId)
     {
         return equipmentService.findEquipmentByCompany(companyId);
@@ -48,6 +50,7 @@ public class EquipmentController {
         return equipmentService.GetAllEquipment();
     }
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLL_COMPANY_ADMIN', 'ROLL_SYSTEM_ADMIN', 'ROLL_COMPANY_ADMIN')")
     public Equipment GetEquipmentById(@PathVariable Long id)
     {
         return equipmentService.GetEquipmentById(id);
@@ -59,6 +62,8 @@ public class EquipmentController {
     }
 
     @GetMapping("/forCompany/{id}")
+    @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
+
     public  List<Equipment> findEquipmentByCompanyId(@PathVariable Long id){
         return equipmentService.findEquipmentByCompanyId(id);
     }
@@ -68,11 +73,14 @@ public class EquipmentController {
         return equipmentService.create(equipment);
     }
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
+
     public Equipment update(@PathVariable long id, @RequestBody Equipment equipment){
         return equipmentService.update(id, equipment);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
     public void delete(@PathVariable long id) {
         equipmentService.delete(id);
     }

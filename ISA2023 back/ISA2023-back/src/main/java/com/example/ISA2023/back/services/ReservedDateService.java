@@ -150,7 +150,7 @@ public class ReservedDateService {
             rd.setId(r.getId());
             rd.setDateTimeInMS(r.getDateTimeInMS());
             rd.setDuration(r.getDuration());
-            rd.setUserName(userRepository.getUserById(r.getUserId()).getFirst_name());
+            rd. (userRepository.getUserById(r.getUserId()).getFirst_name());
             rd.setUserSurname(userRepository.getUserById(r.getUserId()).getLast_name());
             List<String> equipments=new ArrayList<>();
             for (var e:r.getEquipments()) {
