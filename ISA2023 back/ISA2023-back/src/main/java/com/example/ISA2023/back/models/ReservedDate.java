@@ -24,6 +24,7 @@ public class ReservedDate {
     private List<Long> Equipments;
     private Long Duration;
     private Long CompanyAdminId;
+    private Long CompanyId;
 
     private Boolean isPickedUp;
 
@@ -38,6 +39,7 @@ public class ReservedDate {
         Duration = duration;
         CompanyAdminId = companyAdminId;
         this.isPickedUp = isPickedUp;
+        CompanyId=companyId;
     }
 
     public ReservedDate(Long dateTimeInMS, Long userId, List<Long> equipments, Long duration, Long companyAdminId, Boolean isPickedUp) {
@@ -104,5 +106,12 @@ public class ReservedDate {
 
     public void setPickedUp(Boolean pickedUp) {
         isPickedUp = pickedUp;
+    }
+    public Long getCompanyId() {
+        return CompanyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        CompanyId = companyId;
     }
 }

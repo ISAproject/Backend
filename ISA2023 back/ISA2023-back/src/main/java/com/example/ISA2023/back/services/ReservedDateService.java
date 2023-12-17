@@ -7,6 +7,7 @@ import com.example.ISA2023.back.models.ReservedDate;
 import com.example.ISA2023.back.models.irepositories.CompanyRepository;
 import com.example.ISA2023.back.models.irepositories.IEquipmentRepository;
 import com.example.ISA2023.back.models.irepositories.IReservedDateRepository;
+import com.example.ISA2023.back.user.IUserRepository;
 import com.example.ISA2023.back.user.User;
 import com.example.ISA2023.back.utils.QRCodeGenerator;
 import com.google.zxing.WriterException;
@@ -21,26 +22,27 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 public class ReservedDateService {
-    private  final IReservedDateRepository reservedDateRepository;
+    private final IReservedDateRepository reservedDateRepository;
     private final IEquipmentRepository equipmentRepository;
 
     private final CompanyRepository companyRepository;
+    private final IUserRepository userRepository;
     @Autowired
     private JavaMailSender javaMailSender;
     @Autowired
     private ModelMapper modelMapper;
 
     @Autowired
-    public ReservedDateService(IReservedDateRepository reservedDateRepository,IEquipmentRepository equipmentRepository,CompanyRepository companyRepository) {
+    public ReservedDateService(IReservedDateRepository reservedDateRepository,IEquipmentRepository equipmentRepository,CompanyRepository companyRepository, IUserRepository userRepository) {
         this.reservedDateRepository = reservedDateRepository;
         this.equipmentRepository=equipmentRepository;
         this.companyRepository=companyRepository;
+        this.userRepository=userRepository;
     }
 
     public List<ReservedDate> getAll() { return reservedDateRepository.findAll();}
@@ -111,4 +113,107 @@ public class ReservedDateService {
 
     }
 
+
+    public List<ReservedDatesDto>GetByCompany(long companyId)
+    {
+        List<ReservedDatesDto>allDates= new ArrayList<>();
+        var reservedDates=reservedDateRepository.GetByCompany(companyId);
+        for ( var r :reservedDates) {
+            ReservedDatesDto rd=new ReservedDatesDto();
+            rd.setId(r.getId());
+            rd.setDateTimeInMS(r.getDateTimeInMS());
+            rd.setDuration(r.getDuration());
+            rd.setUserName(userRepository.getUserById(r.getUserId()).getFirst_name());
+            rd.setUserSurname(userRepository.getUserById(r.getUserId()).getLast_name());
+            List<String> equipments=new ArrayList<>();
+            for (var e:r.getEquipments()) {
+                Equipment eq=equipmentRepository.findById(e).get();
+                equipments.add(eq.getName());
+            }
+            rd.setEquipments(equipments);
+            allDates.add(rd);
+        }
+        return allDates;
+    }
+
+    public List<ReservedDatesDto>GetByCompanyByWeek(long companyId)
+    {
+        List<ReservedDatesDto> allDates=GetByCompany(companyId);
+        Long currentTime= new Date().getTime();
+        Long week=currentTime+1000*60*60*24*7;
+        List<ReservedDatesDto> datesWeek=new ArrayList<>();
+        for (var date:allDates) {
+            if(date.getDateTimeInMS()<week && date.getDateTimeInMS()>currentTime)
+                datesWeek.add(date);
+        }
+        return datesWeek;
+    }
+    public List<ReservedDatesDto>GetByCompanyByMonth(long companyId, int month, int year)
+    {
+        List<ReservedDatesDto> allDates=GetByCompany(companyId);
+        List<ReservedDatesDto> datesMonth=new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+
+
+        Date start= calendar.getTime();
+        //Date start=new Date(year,month,1);
+        Date end;
+        int daniV[]={0,2,4,6,7,9,11};
+        if(month==1)
+        {
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH, 28);
+            end=calendar.getTime();
+        }
+        else
+            if(Arrays.asList(daniV).contains(month))
+            {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, 31);
+                end=calendar.getTime();
+            }
+
+            else
+            {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, 30);
+                end=calendar.getTime();
+            }
+        for (var date:allDates) {
+
+            if(date.getDateTimeInMS()>=start.getTime() && date.getDateTimeInMS()<=end.getTime())
+                datesMonth.add(date);
+        }
+        return datesMonth;
+    }
+    public List<ReservedDatesDto>GetByCompanyByYear(long companyId, int year)
+    {
+        List<ReservedDatesDto> allDates=GetByCompany(companyId);
+        List<ReservedDatesDto> datesMonth=new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, 0);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+
+
+        Date start= calendar.getTime();
+        //Date start=new Date(year,month,1);
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, 11);
+        calendar.set(Calendar.DAY_OF_MONTH, 31);
+        Date end=calendar.getTime();
+
+        for (var date:allDates) {
+
+            if(date.getDateTimeInMS()>=start.getTime() && date.getDateTimeInMS()<=end.getTime())
+                datesMonth.add(date);
+        }
+        return datesMonth;
+    }
 }
