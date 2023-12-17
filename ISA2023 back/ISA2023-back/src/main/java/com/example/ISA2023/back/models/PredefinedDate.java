@@ -20,21 +20,32 @@ public class PredefinedDate {
     private Long companyAdminId;
     private Long dateTimeInMs;
     private Long duration;
+    private boolean isFree;
 
     public PredefinedDate() {
     }
 
-    public PredefinedDate(Long id, Long companyAdminId, Long dateTimeInMs, Long duration) {
+    public PredefinedDate(Long id, Long companyAdminId, Long dateTimeInMs, Long duration,boolean isFree) {
         this.id = id;
         this.companyAdminId = companyAdminId;
         this.dateTimeInMs = dateTimeInMs;
         this.duration = duration;
+        this.isFree=isFree;
     }
 
-    public PredefinedDate(Long companyAdminId, Long dateTimeInMs, Long duration) {
+    public PredefinedDate(Long companyAdminId, Long dateTimeInMs, Long duration,boolean isFree) {
         this.companyAdminId = companyAdminId;
         this.dateTimeInMs = dateTimeInMs;
         this.duration = duration;
+        this.isFree=isFree;
+    }
+
+    public boolean isFree() {
+        return isFree;
+    }
+
+    public void setFree(boolean free) {
+        this.isFree = free;
     }
 
     public Long getId() {

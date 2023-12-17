@@ -26,4 +26,8 @@ public class PredefinedDateService {
         }
         return  dates;
     }
+
+    public PredefinedDate update(PredefinedDate dateToUpdate){
+        return predefinedDateRepository.save(dateToUpdate);
+    }
 }
