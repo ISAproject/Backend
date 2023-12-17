@@ -75,4 +75,12 @@ public class EquipmentService {
 
         return null;
     }
+    public Equipment lowerQuantity(Long equipmentId){
+        Equipment equipment=equipmentRepository.findById(equipmentId).get();
+        if(equipment.getQuantity()>=1){
+            equipment.setQuantity(equipment.getQuantity()-1);
+            equipmentRepository.save(equipment);
+        }
+        return equipment;
+    }
 }

@@ -41,12 +41,15 @@ INSERT INTO public.predefined_date (
     (-7, -13, 1702998000000, 60,'true'), -- 4:00 PM (next day)
     (-8, -14, 1702965600000, 60,'true'), -- 7:00 AM (next day)
     (-9, -15, 1702976400000, 60,'true'), -- 10:00 AM (next day)
-    (-10, -16, 1702994400000, 60,'true');   -- 3:00 PM (next day)
+    (-10, -16, 1702994400000, 60,'true'),   -- 3:00 PM (next day)
+    (-11, -7, 1703910998510, 30,'true'), 
+    (-12, -8, 1703910998510, 30,'true'), 
+    (-13, -9, 1703910998510, 30,'true');
 
 INSERT INTO public.company(
 	id, address, administrator_id, avg_grade, description, predefined_dates_id, name)
 VALUES 
-    (-1, '123 Main St', ARRAY[-9,-8, -7], 4.5, 'A great company', ARRAY[-3, -2, -1], 'Company A'),
+    (-1, '123 Main St', ARRAY[-9,-8, -7], 4.5, 'A great company', ARRAY[-3, -2, -1, -11, -12, -13], 'Company A'),
     (-2, '456 Oak St', ARRAY[-10, -14, -15, -28], 3.8, 'Providing quality services', ARRAY[-4, -8, -9], 'Company B'),
     (-3, '789 Pine St', ARRAY[-11, -16], 4.2, 'Innovative solutions', ARRAY[-5, -10], 'Company C'),
     (-4, '101 Cedar St', ARRAY[-12, -17], 4.1, 'Excellence in every aspect', ARRAY[-6], 'Company D'),

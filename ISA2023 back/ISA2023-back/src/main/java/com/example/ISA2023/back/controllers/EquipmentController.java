@@ -71,9 +71,13 @@ public class EquipmentController {
     public Equipment update(@PathVariable long id, @RequestBody Equipment equipment){
         return equipmentService.update(id, equipment);
     }
-
     @DeleteMapping("/{id}")
     public void delete(@PathVariable long id) {
         equipmentService.delete(id);
+    }
+
+    @PutMapping("/lowerQuantity/{equipmentId}")
+    public Equipment lowerQuantity(@PathVariable Long equipmentId){
+        return equipmentService.lowerQuantity(equipmentId);
     }
 }

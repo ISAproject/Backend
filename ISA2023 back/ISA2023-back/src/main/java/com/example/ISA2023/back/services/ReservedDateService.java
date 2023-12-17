@@ -107,7 +107,7 @@ public class ReservedDateService {
         List<ReservedDate> reservedList=reservedDateRepository.findAllByUserId(userId);
         List<ReservedDatesDto> datesDto=new ArrayList<>();
         for (var item:reservedList) {
-            Company company=companyRepository.findById(-1L).get();
+            Company company=companyRepository.findById(item.getCompanyId()).get();
             datesDto.add(new ReservedDatesDto(item.getDuration(),item.getDateTimeInMS(),company.getName()));
         }
         return datesDto;
