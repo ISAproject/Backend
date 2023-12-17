@@ -29,13 +29,16 @@ public class CompanyController {
     }
 
     @GetMapping("/")
+    @PreAuthorize("hasAnyAuthority('ROLL_COMPANY_ADMIN', 'ROLL_SYSTEM_ADMIN', 'ROLL_COMPANY_ADMIN')")
     public List<Company> getAll(){return companyService.getCompanies();}
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('ROLL_COMPANY_ADMIN', 'ROLL_SYSTEM_ADMIN', 'ROLL_COMPANY_ADMIN')")
     public List<Company> getCompanies(){
         return companyService.getCompanies();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLL_COMPANY_ADMIN', 'ROLL_SYSTEM_ADMIN', 'ROLL_COMPANY_ADMIN')")
     public  Company getCompany(@PathVariable Long id){
         return companyService.getById(id);
     }
@@ -47,6 +50,7 @@ public class CompanyController {
 
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
     public Company update(@PathVariable long id, @RequestBody Company company) {return companyService.update(id, company);}
     @PostMapping
     public Company create(@RequestBody Company company)

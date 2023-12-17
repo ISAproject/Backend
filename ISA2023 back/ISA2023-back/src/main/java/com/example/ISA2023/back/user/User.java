@@ -51,13 +51,14 @@ public class User implements UserDetails {
         is_verified = verified;
     }
 
+    private boolean isFirstLogin;
 
 
     public User() {
     }
 
     public User(String username, String email, String password, String first_name, String last_name,
-                String state, String city, String tel_number, String occupation, String company_info, UserRole role, boolean isVerified) {
+                String state, String city, String tel_number, String occupation, String company_info, UserRole role, boolean isVerified, boolean isFirstLogin) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -70,10 +71,11 @@ public class User implements UserDetails {
         this.company_info = company_info;
         this.role = role;
         this.is_verified = isVerified;
+        this.isFirstLogin = isFirstLogin;
     }
 
     public User(Long id, String username, String email, String password, String first_name, String last_name, String state,
-                String city, String tel_number, String occupation, String company_info, UserRole role, boolean isVerified) {
+                String city, String tel_number, String occupation, String company_info, UserRole role, boolean isVerified, boolean isFirstLogin) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -87,6 +89,7 @@ public class User implements UserDetails {
         this.company_info = company_info;
         this.role = role;
         this.is_verified = isVerified;
+        this.isFirstLogin = isFirstLogin;
     }
 
     public Long getId() {
@@ -167,6 +170,14 @@ public class User implements UserDetails {
 
     public void setCompany_info(String company_info) {
         this.company_info = company_info;
+    }
+
+    public boolean isFirstLogin() {
+        return isFirstLogin;
+    }
+
+    public void setFirstLogin(boolean firstLogin) {
+        isFirstLogin = firstLogin;
     }
 
     @Override

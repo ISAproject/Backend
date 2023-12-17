@@ -30,7 +30,7 @@ VALUES
 	(-28, 'Grad', 'Company Info 18', 'mail@example.com', 'First Name18', 'Last Name18', 'Occupation18', 'password18', 'State18', 'false','1234567898', 'username29', 2);
 
 INSERT INTO public.predefined_date (
-    id, company_admin_id, date_time_in_ms, duration,is_free
+    id, company_admin_id, date_time_in_ms, duration, is_free
 ) VALUES
     (-1, -7, 1702882800000, 60,'true'),  -- 8:00 AM
     (-2, -8, 1702900800000, 60,'true'),  -- 1:00 PM

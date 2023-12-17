@@ -1,5 +1,6 @@
 package com.example.ISA2023.back.services;
 
+import com.example.ISA2023.back.dtos.TrackingOrderDto;
 import com.example.ISA2023.back.dtos.ReservedDatesDto;
 import com.example.ISA2023.back.dtos.ReservedDatesForCalendarDto;
 import com.example.ISA2023.back.models.Company;
@@ -103,6 +104,31 @@ public class ReservedDateService {
     }
     public ReservedDate FindById(Long id){
         return reservedDateRepository.findById(id).get();
+    }
+
+    public List<TrackingOrderDto> getTrackingsByEquipmentId(Long id){
+        var reservedDates = reservedDateRepository.findAll()
+                .stream()
+                .filter(d -> d.getEquipments()
+                        .stream()
+                        .anyMatch(eq -> eq.equals(id))).toList();
+
+        List<TrackingOrderDto> trackingOrders = new ArrayList<TrackingOrderDto>();
+
+        for(ReservedDate date : reservedDates){
+            var companyAdmin = userRepository.findById(date.getCompanyAdminId());
+            var user = userRepository.findById(date.getUserId());
+
+            TrackingOrderDto order = new TrackingOrderDto(date.getId(),
+                    user.get().getFirst_name() + " " + user.get().getLast_name(),
+                    companyAdmin.get().getFirst_name() + " " + companyAdmin.get().getLast_name(),
+                    date.getPickedUp(),
+                    date.getDateTimeInMS());
+
+            trackingOrders.add(order);
+        }
+
+        return trackingOrders;
     }
     public List<ReservedDatesDto> getReservedDatesByUserId(Long userId) {
         List<ReservedDate> reservedList=reservedDateRepository.findAllByUserId(userId);

@@ -2,6 +2,7 @@ package com.example.ISA2023.back.user;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -57,5 +58,11 @@ public class UserController {
     public User getLoggedUser(@PathVariable String username){
         return userService.findByUsername(username)
                           .orElseThrow();
+    }
+
+    @PutMapping("updateCompanyAdmin/{id}")
+    @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
+    public User updateCompanyAdmin(@PathVariable long id, @RequestBody User user){
+        return userService.updateCompanyAdmin(id, user);
     }
 }
