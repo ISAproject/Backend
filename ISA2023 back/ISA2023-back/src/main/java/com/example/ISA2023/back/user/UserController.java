@@ -42,8 +42,12 @@ public class UserController {
     }
     @PutMapping("/{id}")
     public User update(@PathVariable Long id, @RequestBody User updatedUser){
-        return userService.update(id,updatedUser);}
-
+        return userService.update(id,updatedUser);
+    }
+    @PutMapping("/updatepassword/{id}")
+    public User updatePassword(@PathVariable Long id, @RequestBody User updatedUser){
+        return userService.updatePassword(id,updatedUser);
+    }
     @GetMapping("/companyAdministratorsByCompanyId/{id}")
     public List<User> getCompanyAdministratorsByCompanyId(@PathVariable long id){
         return userService.getCompanyAdministratorsByCompanyId(id);

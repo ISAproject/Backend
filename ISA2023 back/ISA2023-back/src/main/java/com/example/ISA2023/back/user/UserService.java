@@ -66,6 +66,20 @@ public class UserService {
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             updatedUser.setId(id);
+            //updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+            //updatedUser.setVerified(true);
+            modelMapper.map(updatedUser, user);
+            userRepository.save(user);
+            return user;
+        }
+
+        return null;
+    }
+    public User updatePassword(Long id,User updatedUser){
+        Optional<User> optionalUser= userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            updatedUser.setId(id);
             updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
             updatedUser.setVerified(true);
             modelMapper.map(updatedUser, user);
