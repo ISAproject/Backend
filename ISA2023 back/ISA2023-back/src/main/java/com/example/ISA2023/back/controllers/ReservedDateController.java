@@ -56,6 +56,10 @@ public class ReservedDateController {
         reservedDateService.sendConfirmationEmail(email,reservedDate);
         return reservation;
     }
+    @GetMapping("reservedDates/{id}")
+    public List<ReservedDate> getReservedDatesByUserId(@PathVariable Long id){
 
+        return reservedDateService.getReservedDatesByUserId(id);
+    }
 
 }

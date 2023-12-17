@@ -94,4 +94,8 @@ public class ReservedDateService {
     public ReservedDate FindById(Long id){
         return reservedDateRepository.findById(id).get();
     }
+    public List<ReservedDate> getReservedDatesByUserId(Long userId) {
+        return reservedDateRepository.findAllByUserId(userId);
+    }
+
 }

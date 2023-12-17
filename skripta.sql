@@ -30,18 +30,18 @@ VALUES
 	(-28, 'Grad', 'Company Info 18', 'mail@example.com', 'First Name18', 'Last Name18', 'Occupation18', 'password18', 'State18', 'false','1234567898', 'username29', 2);
 
 INSERT INTO public.predefined_date (
-    id, company_admin_id, date_time_in_ms, duration
+    id, company_admin_id, date_time_in_ms, duration,is_free
 ) VALUES
-    (-1, -7, 1702882800000, 60),  -- 8:00 AM
-    (-2, -8, 1702900800000, 60),  -- 1:00 PM
-    (-3, -9, 1702911600000, 60),  -- 4:00 PM
-    (-4, -10, 1702908000000, 60), -- 3:00 PM
-    (-5, -11, 1702890000000, 60), -- 10:00 AM
-    (-6, -12, 1702987200000, 60), -- 1:00 PM (next day)
-    (-7, -13, 1702998000000, 60), -- 4:00 PM (next day)
-    (-8, -14, 1702965600000, 60), -- 7:00 AM (next day)
-    (-9, -15, 1702976400000, 60), -- 10:00 AM (next day)
-    (-10, -16, 1702994400000, 60);   -- 3:00 PM (next day)
+    (-1, -7, 1702882800000, 60,'true'),  -- 8:00 AM
+    (-2, -8, 1702900800000, 60,'true'),  -- 1:00 PM
+    (-3, -9, 1702911600000, 60,'true'),  -- 4:00 PM
+    (-4, -10, 1702908000000, 60,'true'), -- 3:00 PM
+    (-5, -11, 1702890000000, 60,'true'), -- 10:00 AM
+    (-6, -12, 1702987200000, 60,'true'), -- 1:00 PM (next day)
+    (-7, -13, 1702998000000, 60,'true'), -- 4:00 PM (next day)
+    (-8, -14, 1702965600000, 60,'true'), -- 7:00 AM (next day)
+    (-9, -15, 1702976400000, 60,'true'), -- 10:00 AM (next day)
+    (-10, -16, 1702994400000, 60,'true');   -- 3:00 PM (next day)
 
 INSERT INTO public.company(
 	id, address, administrator_id, avg_grade, description, predefined_dates_id, name)
