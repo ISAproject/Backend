@@ -23,20 +23,24 @@ public class ReservedDate {
     private Long UserId;
     private List<Long> Equipments;
 
+    private Boolean isPickedUp;
+
     public ReservedDate() {
     }
 
-    public ReservedDate(Long id, Long dateTimeInMS, Long userId, List<Long> equipments) {
+    public ReservedDate(Long id, Long dateTimeInMS, Long userId, List<Long> equipments, Boolean isPickedUp) {
         Id = id;
         DateTimeInMS = dateTimeInMS;
         UserId = userId;
         Equipments = equipments;
+        this.isPickedUp = isPickedUp;
     }
 
-    public ReservedDate(Long dateTimeInMS, Long userId, List<Long> equipments) {
+    public ReservedDate(Long dateTimeInMS, Long userId, List<Long> equipments, Boolean isPickedUp) {
         DateTimeInMS = dateTimeInMS;
         UserId = userId;
         Equipments = equipments;
+        this.isPickedUp = isPickedUp;
     }
 
     public Long getId() {
@@ -69,5 +73,13 @@ public class ReservedDate {
 
     public void setEquipments(List<Long> equipments) {
         Equipments = equipments;
+    }
+
+    public Boolean getPickedUp() {
+        return isPickedUp;
+    }
+
+    public void setPickedUp(Boolean pickedUp) {
+        isPickedUp = pickedUp;
     }
 }
