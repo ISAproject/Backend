@@ -122,4 +122,8 @@ public class UserService {
 
         return tokenDTO;
     }
+    public User getByUserId(Long id)
+    {
+        return userRepository.getUserById(id);
+    }
 }
