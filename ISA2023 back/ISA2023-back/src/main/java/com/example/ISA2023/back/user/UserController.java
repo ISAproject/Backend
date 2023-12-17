@@ -44,9 +44,9 @@ public class UserController {
     public User update(@PathVariable Long id, @RequestBody User updatedUser){
         return userService.update(id,updatedUser);}
 
-    @GetMapping("/companyAdministrators")
-    public List<User> getCompanyAdministrators(){
-        return userService.getCompanyAdministrators();
+    @GetMapping("/companyAdministratorsByCompanyId/{id}")
+    public List<User> getCompanyAdministratorsByCompanyId(@PathVariable long id){
+        return userService.getCompanyAdministratorsByCompanyId(id);
     }
     @GetMapping("/getlastuser")
     public User getLastUser()

@@ -3,6 +3,7 @@ package com.example.ISA2023.back.user;
 import com.example.ISA2023.back.dtos.JwtAuthenticationRequest;
 import com.example.ISA2023.back.dtos.UserTokenState;
 import com.example.ISA2023.back.security.JwtUtils;
+import com.example.ISA2023.back.models.irepositories.CompanyRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.internal.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import java.util.List;
 @Service
 public class UserService {
     private final IUserRepository userRepository;
+    private final CompanyRepository companyRepository;
     @Autowired
     private JavaMailSender javaMailSender;
     @Autowired
@@ -33,10 +35,13 @@ public class UserService {
     @Autowired
     private ModelMapper modelMapper;
     @Autowired
+
     private PasswordEncoder passwordEncoder;
+    
     @Autowired
-    public UserService(IUserRepository userRepository) {
+    public UserService(IUserRepository userRepository, CompanyRepository companyRepository) {
         this.userRepository = userRepository;
+        this.companyRepository = companyRepository;
     }
 
     public void sendVerificationEmail(User user) {
@@ -71,9 +76,16 @@ public class UserService {
     public User findByEmail(String email){
         return userRepository.findByEmail(email);
     }
-    
+
     public List<User> getCompanyAdministrators(){
         return userRepository.getCompanyAdministrators();
+    }
+    
+    public List<User> getCompanyAdministratorsByCompanyId(long companyId){
+        var company = companyRepository.findById(companyId);
+        return getCompanyAdministrators()
+                .stream()
+                .filter(c -> company.get().getAdministratorId().contains(c.getId())).toList();
     }
     public User getLastUser()
     {

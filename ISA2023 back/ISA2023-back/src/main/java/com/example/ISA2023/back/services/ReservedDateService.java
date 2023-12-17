@@ -37,6 +37,7 @@ public class ReservedDateService {
         this.equipmentRepository=equipmentRepository;
     }
 
+    public List<ReservedDate> getAll() { return reservedDateRepository.findAll();}
     public ReservedDate create(ReservedDate reservedDate){
         return reservedDateRepository.save(reservedDate);
     }

@@ -28,15 +28,29 @@ VALUES
     (-26, 'Gradic', 'Company Info 16', 'mail@example.com', 'First Name16', 'Last Name16', 'Occupation16', 'password16', 'State16','false', '1234567896', 'username26', 1),
     (-27, 'Gradic', 'Company Info 17', 'mail@example.com', 'First Name17', 'Last Name17', 'Occupation17', 'password17', 'State17','true', '1234567897', 'username77', 1),
 	(-28, 'Grad', 'Company Info 18', 'mail@example.com', 'First Name18', 'Last Name18', 'Occupation18', 'password18', 'State18', 'false','1234567898', 'username29', 2);
-    
+
+INSERT INTO public.predefined_date (
+    id, company_admin_id, date_time_in_ms, duration
+) VALUES
+    (-1, -7, 1702882800000, 60),  -- 8:00 AM
+    (-2, -8, 1702900800000, 60),  -- 1:00 PM
+    (-3, -9, 1702911600000, 60),  -- 4:00 PM
+    (-4, -10, 1702908000000, 60), -- 3:00 PM
+    (-5, -11, 1702890000000, 60), -- 10:00 AM
+    (-6, -12, 1702987200000, 60), -- 1:00 PM (next day)
+    (-7, -13, 1702998000000, 60), -- 4:00 PM (next day)
+    (-8, -14, 1702965600000, 60), -- 7:00 AM (next day)
+    (-9, -15, 1702976400000, 60), -- 10:00 AM (next day)
+    (-10, -16, 1702994400000, 60);   -- 3:00 PM (next day)
+
 INSERT INTO public.company(
-	id, address, administrator_id, avg_grade, description, equipemnts_free_milliseconds, name)
+	id, address, administrator_id, avg_grade, description, predefined_dates_id, name)
 VALUES 
-    (-1, '123 Main St', ARRAY[-9,-8], 4.5, 'A great company', ARRAY[1587781200000,1581289200000,1607132400000], 'Company A'),
-    (-2, '456 Oak St', ARRAY[-10], 3.8, 'Providing quality services', ARRAY[1587781200000,1596357600000,1581289200000], 'Company B'),
-    (-3, '789 Pine St', ARRAY[-11], 4.2, 'Innovative solutions', ARRAY[1698793200000,1700002800000,1700780400000,1698879600000], 'Company C'),
-    (-4, '101 Cedar St', ARRAY[-12], 4.1, 'Excellence in every aspect', ARRAY[1581289200000,1596357600000,1607132400000], 'Company D'),
-    (-5, '202 Maple St', ARRAY[-13], 3.9, 'Customer satisfaction is our priority', ARRAY[1596357600000], 'Company E');
+    (-1, '123 Main St', ARRAY[-9,-8, -7], 4.5, 'A great company', ARRAY[-3, -2, -1], 'Company A'),
+    (-2, '456 Oak St', ARRAY[-10, -14, -15, -28], 3.8, 'Providing quality services', ARRAY[-4, -8, -9], 'Company B'),
+    (-3, '789 Pine St', ARRAY[-11, -16], 4.2, 'Innovative solutions', ARRAY[-5, -10], 'Company C'),
+    (-4, '101 Cedar St', ARRAY[-12, -17], 4.1, 'Excellence in every aspect', ARRAY[-6], 'Company D'),
+    (-5, '202 Maple St', ARRAY[-13, -18], 3.9, 'Customer satisfaction is our priority', ARRAY[-7], 'Company E');
 	
 INSERT INTO public.equipment (
     id,

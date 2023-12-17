@@ -31,4 +31,18 @@ public class PredefinedDateController {
     }
 
 
+    @GetMapping
+    public List<PredefinedDate> getAll(){
+        return predefinedDateService.getAll();
+    }
+
+    @PostMapping("/{id}")
+    public PredefinedDate create(@RequestBody PredefinedDate predefinedDate, @PathVariable long id){
+        return predefinedDateService.create(predefinedDate, id);
+    }
+
+    @DeleteMapping("/{id}/{companyId}")
+    public void deleteById(@PathVariable long id, @PathVariable long companyId){
+        predefinedDateService.deleteById(id, companyId);
+    }
 }

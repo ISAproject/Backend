@@ -63,6 +63,17 @@ public class EquipmentController {
         return equipmentService.findEquipmentByCompanyId(id);
     }
 
+    @PostMapping
+    public Equipment create(@RequestBody Equipment equipment){
+        return equipmentService.create(equipment);
+    }
+    @PutMapping("/{id}")
+    public Equipment update(@PathVariable long id, @RequestBody Equipment equipment){
+        return equipmentService.update(id, equipment);
+    }
 
-
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable long id) {
+        equipmentService.delete(id);
+    }
 }

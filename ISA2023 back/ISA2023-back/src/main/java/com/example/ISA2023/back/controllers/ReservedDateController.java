@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping(path = "api/v1/reservedDate")
@@ -39,6 +41,10 @@ public class ReservedDateController {
     }
 
 
+    @GetMapping
+    public List<ReservedDate> getAll(){
+        return reservedDateService.getAll();
+    }
     @PostMapping
     public ReservedDate create(@RequestBody ReservedDate reservedDate){
         return reservedDateService.create(reservedDate);
