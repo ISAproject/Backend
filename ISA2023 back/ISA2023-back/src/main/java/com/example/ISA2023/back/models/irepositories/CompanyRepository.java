@@ -17,4 +17,6 @@ public interface CompanyRepository extends JpaRepository<Company, Long > {
     @Query("SELECT c FROM Company c WHERE c.avgGrade>=?1")
     List<Company> findByRating(double rating);
 
+    @Query("SELECT c FROM Company c WHERE c.id=?1")
+    Company findAllPredefinedDatesByCompanyId(Long companyId);
 }

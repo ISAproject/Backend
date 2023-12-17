@@ -16,4 +16,5 @@ public interface IReservedDateRepository extends JpaRepository<ReservedDate, Lon
     
     @Query("SELECT r FROM ReservedDate r WHERE r.CompanyId = ?1")
     public List<ReservedDate> GetByCompany(long companyId);
+
 }

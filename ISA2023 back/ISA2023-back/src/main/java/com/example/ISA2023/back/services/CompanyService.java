@@ -1,23 +1,31 @@
 package com.example.ISA2023.back.services;
 
+import com.example.ISA2023.back.dtos.ReservedDatesDto;
+import com.example.ISA2023.back.dtos.ReservedDatesForCalendarDto;
 import com.example.ISA2023.back.models.Company;
+import com.example.ISA2023.back.models.Equipment;
+import com.example.ISA2023.back.models.PredefinedDate;
 import com.example.ISA2023.back.models.irepositories.CompanyRepository;
+import com.example.ISA2023.back.models.irepositories.IPredefinedDateRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CompanyService {
     private final CompanyRepository companyRepository;
+    private final IPredefinedDateRepository predefinedDateRepository;
     @Autowired
     private ModelMapper modelMapper;
 
     @Autowired
-    public CompanyService(CompanyRepository companyRepository) {
+    public CompanyService(CompanyRepository companyRepository,IPredefinedDateRepository predefinedDateRepository) {
         this.companyRepository = companyRepository;
+        this.predefinedDateRepository=predefinedDateRepository;
     }
 
     public List<Company> getCompanies(){
@@ -70,6 +78,25 @@ public class CompanyService {
             return false;
         }
 
+    }
+    public List<ReservedDatesForCalendarDto> findAllPredefinedDatesByCompanyId(Long companyId)
+    {
+        List<Long> list1=companyRepository.findAllPredefinedDatesByCompanyId(companyId).getPredefinedDatesId();
+        List<PredefinedDate> list= predefinedDateRepository.findAllById(list1) ;
+        List<ReservedDatesForCalendarDto> allDates=new ArrayList<>();
+        List<String> e=new ArrayList<>();
+        for (var d:list) {
+
+            ReservedDatesForCalendarDto rd=new ReservedDatesForCalendarDto();
+            rd.setId(d.getId());
+            rd.setDateTimeInMS(d.getDateTimeInMs());
+            rd.setDuration(d.getDuration());
+            rd.setEquipments(e);
+            rd.setUserName("");
+            rd.setUserSurname("");
+            allDates.add(rd);
+        }
+        return allDates;
     }
 }
 

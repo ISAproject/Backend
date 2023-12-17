@@ -1,5 +1,6 @@
 package com.example.ISA2023.back.controllers;
 
+import com.example.ISA2023.back.dtos.ReservedDatesForCalendarDto;
 import com.example.ISA2023.back.models.Company;
 import com.example.ISA2023.back.services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,4 +60,11 @@ public class CompanyController {
     {
         return companyService.giveCompanyAdmins(companyId,adminId);
     }
+
+    @GetMapping("/allpredefineddates/{companyId}")
+    public List<ReservedDatesForCalendarDto> findAllPredefinedDatesByCompanyId( @PathVariable Long companyId)
+    {
+        return companyService.findAllPredefinedDatesByCompanyId(companyId);
+    }
+
 }

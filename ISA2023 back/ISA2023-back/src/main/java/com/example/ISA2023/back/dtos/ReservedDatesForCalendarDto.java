@@ -2,7 +2,7 @@ package com.example.ISA2023.back.dtos;
 
 import java.util.List;
 
-public class ReservedDatesForCalendarDto {
+public class ReservedDatesForCalendarDto{
 
     private Long Id;
     private Long DateTimeInMS;
@@ -61,4 +61,5 @@ public class ReservedDatesForCalendarDto {
     public void setDuration(Long duration) {
         Duration = duration;
     }
+
 }

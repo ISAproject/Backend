@@ -30,7 +30,7 @@ import java.util.*;
 public class ReservedDateService {
     private final IReservedDateRepository reservedDateRepository;
     private final IEquipmentRepository equipmentRepository;
-
+    private final CompanyService companyService;
     private final CompanyRepository companyRepository;
     private final IUserRepository userRepository;
     @Autowired
@@ -39,11 +39,12 @@ public class ReservedDateService {
     private ModelMapper modelMapper;
 
     @Autowired
-    public ReservedDateService(IReservedDateRepository reservedDateRepository,IEquipmentRepository equipmentRepository,CompanyRepository companyRepository, IUserRepository userRepository) {
+    public ReservedDateService(IReservedDateRepository reservedDateRepository,IEquipmentRepository equipmentRepository,CompanyRepository companyRepository, IUserRepository userRepository, CompanyService companyService) {
         this.reservedDateRepository = reservedDateRepository;
         this.equipmentRepository=equipmentRepository;
         this.companyRepository=companyRepository;
         this.userRepository=userRepository;
+        this.companyService=companyService;
     }
 
     public List<ReservedDate> getAll() { return reservedDateRepository.findAll();}
@@ -117,7 +118,7 @@ public class ReservedDateService {
 
     public List<ReservedDatesForCalendarDto>GetByCompany(long companyId)
     {
-        List<ReservedDatesForCalendarDto>allDates= new ArrayList<>();
+        List<ReservedDatesForCalendarDto>allDates= new ArrayList<>(companyService.findAllPredefinedDatesByCompanyId(companyId));
         var reservedDates=reservedDateRepository.GetByCompany(companyId);
         for ( var r :reservedDates) {
             ReservedDatesForCalendarDto rd=new ReservedDatesForCalendarDto();
@@ -134,6 +135,8 @@ public class ReservedDateService {
             rd.setEquipments(equipments);
             allDates.add(rd);
         }
+        Comparator<ReservedDatesForCalendarDto> comparator = Comparator.comparing(ReservedDatesForCalendarDto::getDateTimeInMS);
+        allDates.sort(comparator);
         return allDates;
     }
 
@@ -147,6 +150,8 @@ public class ReservedDateService {
             if(date.getDateTimeInMS()<week && date.getDateTimeInMS()>currentTime)
                 datesWeek.add(date);
         }
+        Comparator<ReservedDatesForCalendarDto> comparator = Comparator.comparing(ReservedDatesForCalendarDto::getDateTimeInMS);
+        datesWeek.sort(comparator);
         return datesWeek;
     }
     public List<ReservedDatesForCalendarDto>GetByCompanyByMonth(long companyId, int month, int year)
@@ -160,9 +165,9 @@ public class ReservedDateService {
 
 
         Date start= calendar.getTime();
-        //Date start=new Date(year,month,1);
         Date end;
-        int daniV[]={0,2,4,6,7,9,11};
+        Integer niz[]={0,2,4,6,7,9,11};
+        List<Integer> daniV=new ArrayList<Integer>(List.of(niz));
         if(month==1)
         {
             calendar.set(Calendar.YEAR, year);
@@ -171,7 +176,7 @@ public class ReservedDateService {
             end=calendar.getTime();
         }
         else
-            if(Arrays.asList(daniV).contains(month))
+            if(daniV.contains(month))
             {
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
@@ -191,6 +196,8 @@ public class ReservedDateService {
             if(date.getDateTimeInMS()>=start.getTime() && date.getDateTimeInMS()<=end.getTime())
                 datesMonth.add(date);
         }
+        Comparator<ReservedDatesForCalendarDto> comparator = Comparator.comparing(ReservedDatesForCalendarDto::getDateTimeInMS);
+        datesMonth.sort(comparator);
         return datesMonth;
     }
     public List<ReservedDatesForCalendarDto>GetByCompanyByYear(long companyId, int year)
@@ -215,6 +222,8 @@ public class ReservedDateService {
             if(date.getDateTimeInMS()>=start.getTime() && date.getDateTimeInMS()<=end.getTime())
                 datesMonth.add(date);
         }
+        Comparator<ReservedDatesForCalendarDto> comparator = Comparator.comparing(ReservedDatesForCalendarDto::getDateTimeInMS);
+        datesMonth.sort(comparator);
         return datesMonth;
     }
 }
