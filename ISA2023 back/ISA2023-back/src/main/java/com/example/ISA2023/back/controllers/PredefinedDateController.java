@@ -4,8 +4,10 @@ import com.example.ISA2023.back.models.PredefinedDate;
 import com.example.ISA2023.back.services.CompanyService;
 import com.example.ISA2023.back.services.PredefinedDateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -17,6 +19,18 @@ public class PredefinedDateController {
     public PredefinedDateController(PredefinedDateService predefinedDateService) {
         this.predefinedDateService = predefinedDateService;
     }
+
+    @PostMapping
+    public List<PredefinedDate> findAllById(@RequestBody List<Long> listId){
+        return predefinedDateService.findAllById(listId);
+    }
+
+    @PutMapping
+    public PredefinedDate update(@RequestBody PredefinedDate dateToUpdate){
+        return predefinedDateService.update(dateToUpdate);
+    }
+
+
     @GetMapping
     public List<PredefinedDate> getAll(){
         return predefinedDateService.getAll();

@@ -6,10 +6,22 @@ import com.example.ISA2023.back.models.ReservedDate;
 import com.example.ISA2023.back.models.irepositories.IEquipmentRepository;
 import com.example.ISA2023.back.models.irepositories.IReservedDateRepository;
 import com.example.ISA2023.back.user.IUserRepository;
+import com.example.ISA2023.back.user.User;
+import com.example.ISA2023.back.utils.QRCodeGenerator;
+import com.google.zxing.WriterException;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -23,8 +35,9 @@ public class ReservedDateService {
     private ModelMapper modelMapper;
 
     @Autowired
-    public ReservedDateService(IReservedDateRepository reservedDateRepository) {
+    public ReservedDateService(IReservedDateRepository reservedDateRepository,IEquipmentRepository equipmentRepository) {
         this.reservedDateRepository = reservedDateRepository;
+        this.equipmentRepository=equipmentRepository;
     }
 
     public List<ReservedDate> getAll() { return reservedDateRepository.findAll();}

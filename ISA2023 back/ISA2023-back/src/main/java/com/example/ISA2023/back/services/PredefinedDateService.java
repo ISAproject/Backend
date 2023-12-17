@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -46,5 +47,17 @@ public class PredefinedDateService {
                                         .stream().filter(p -> !p.equals(id)).toList());
 
         companyService.update(companyId, company);
+    }
+
+    public List<PredefinedDate> findAllById(List<Long> listId){
+        List<PredefinedDate> dates=new ArrayList<>();
+        for (Long id:listId) {
+            dates.add(predefinedDateRepository.findById(id).get());
+        }
+        return  dates;
+    }
+
+    public PredefinedDate update(PredefinedDate dateToUpdate){
+        return predefinedDateRepository.save(dateToUpdate);
     }
 }

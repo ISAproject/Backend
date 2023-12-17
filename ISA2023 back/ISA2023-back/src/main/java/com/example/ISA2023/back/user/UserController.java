@@ -31,7 +31,7 @@ public class UserController {
         user.setVerified(true);
         return userService.update(id, user);
     }
-    @GetMapping("email/{email}")
+    @GetMapping("/email/{email}")
     public User getByEmail(@PathVariable String email){
         var user = userService.findByEmail(email);
         return user;
@@ -41,7 +41,8 @@ public class UserController {
         return userService.findById(id);
     }
     @PutMapping("/{id}")
-    public User update(@PathVariable Long id, @RequestBody User updatedUser){return userService.update(id,updatedUser);}
+    public User update(@PathVariable Long id, @RequestBody User updatedUser){
+        return userService.update(id,updatedUser);}
 
     @GetMapping("/companyAdministratorsByCompanyId/{id}")
     public List<User> getCompanyAdministratorsByCompanyId(@PathVariable long id){
@@ -51,5 +52,10 @@ public class UserController {
     public User getLastUser()
     {
         return userService.getLastUser();
+    }
+    @GetMapping("/username/{username}")
+    public User getLoggedUser(@PathVariable String username){
+        return userService.findByUsername(username)
+                          .orElseThrow();
     }
 }
