@@ -50,7 +50,7 @@ public class EquipmentController {
         return equipmentService.GetAllEquipment();
     }
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ROLL_COMPANY_ADMIN', 'ROLL_SYSTEM_ADMIN', 'ROLL_COMPANY_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLL_USER', 'ROLL_SYSTEM_ADMIN', 'ROLL_COMPANY_ADMIN')")
     public Equipment GetEquipmentById(@PathVariable Long id)
     {
         return equipmentService.GetEquipmentById(id);
@@ -62,7 +62,7 @@ public class EquipmentController {
     }
 
     @GetMapping("/forCompany/{id}")
-    @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLL_USER', 'ROLL_SYSTEM_ADMIN', 'ROLL_COMPANY_ADMIN')")
 
     public  List<Equipment> findEquipmentByCompanyId(@PathVariable Long id){
         return equipmentService.findEquipmentByCompanyId(id);

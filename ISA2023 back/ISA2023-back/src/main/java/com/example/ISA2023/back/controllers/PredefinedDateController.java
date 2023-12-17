@@ -21,7 +21,7 @@ public class PredefinedDateController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('ROLL_COMPANY_ADMIN', 'ROLL_SYSTEM_ADMIN', 'ROLL_COMPANY_ADMIN')")
+    //@PreAuthorize("hasAnyAuthority('ROLL_COMPANY_ADMIN', 'ROLL_SYSTEM_ADMIN', 'ROLL_COMPANY_ADMIN')")
 
     public List<PredefinedDate> findAllById(@RequestBody List<Long> listId){
         return predefinedDateService.findAllById(listId);

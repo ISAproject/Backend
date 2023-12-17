@@ -66,7 +66,7 @@ public class UserService {
         Optional<User> optionalUser= userRepository.findById(id);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            //updatedUser.setId(id);
+            updatedUser.setId(id);
             modelMapper.map(updatedUser, user);
             userRepository.save(user);
             return user;
