@@ -7,6 +7,17 @@ public class TrackingOrderDto {
     private Boolean pickedUp;
     private Long dateTimeInMs;
 
+    public TrackingOrderDto() {
+    }
+
+    public TrackingOrderDto(Long id, String userName, String companyAdminName, Boolean pickedUp, Long dateTimeInMs) {
+        this.id = id;
+        this.userName = userName;
+        this.companyAdminName = companyAdminName;
+        this.pickedUp = pickedUp;
+        this.dateTimeInMs = dateTimeInMs;
+    }
+
     public Long getId() {
         return id;
     }

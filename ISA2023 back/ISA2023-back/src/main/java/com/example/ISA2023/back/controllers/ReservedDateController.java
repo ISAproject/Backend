@@ -1,5 +1,6 @@
 package com.example.ISA2023.back.controllers;
 
+import com.example.ISA2023.back.dtos.TrackingOrderDto;
 import com.example.ISA2023.back.models.Equipment;
 import com.example.ISA2023.back.models.ReservedDate;
 import com.example.ISA2023.back.services.ReservedDateService;
@@ -39,11 +40,14 @@ public class ReservedDateController {
     public List<Equipment> findEquipmentByReservationDateId(@PathVariable Long id){
         return reservedDateService.findEquipmentByReservationDateId(id);
     }
-
-
     @GetMapping
     public List<ReservedDate> getAll(){
         return reservedDateService.getAll();
+    }
+
+    @GetMapping("trackingOrder/{id}")
+    public List<TrackingOrderDto> getTrackingsByEquipmentId(@PathVariable Long id){
+        return reservedDateService.getTrackingsByEquipmentId(id);
     }
     @PostMapping
     public ReservedDate create(@RequestBody ReservedDate reservedDate){

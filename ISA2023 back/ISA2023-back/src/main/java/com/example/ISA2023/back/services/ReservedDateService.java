@@ -20,9 +20,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ReservedDateService {
@@ -35,9 +33,10 @@ public class ReservedDateService {
     private ModelMapper modelMapper;
 
     @Autowired
-    public ReservedDateService(IReservedDateRepository reservedDateRepository,IEquipmentRepository equipmentRepository) {
+    public ReservedDateService(IReservedDateRepository reservedDateRepository,IEquipmentRepository equipmentRepository, IUserRepository userRepository) {
         this.reservedDateRepository = reservedDateRepository;
         this.equipmentRepository=equipmentRepository;
+        this.userRepository = userRepository;
     }
 
     public List<ReservedDate> getAll() { return reservedDateRepository.findAll();}
@@ -99,6 +98,27 @@ public class ReservedDateService {
     }
 
     public List<TrackingOrderDto> getTrackingsByEquipmentId(Long id){
+        var reservedDates = reservedDateRepository.findAll()
+                .stream()
+                .filter(d -> d.getEquipments()
+                        .stream()
+                        .anyMatch(eq -> eq.equals(id))).toList();
 
+        List<TrackingOrderDto> trackingOrders = new ArrayList<TrackingOrderDto>();
+
+        for(ReservedDate date : reservedDates){
+            var companyAdmin = userRepository.findById(date.getCompanyAdminId());
+            var user = userRepository.findById(date.getUserId());
+
+            TrackingOrderDto order = new TrackingOrderDto(date.getId(),
+                    user.get().getFirst_name() + " " + user.get().getLast_name(),
+                    companyAdmin.get().getFirst_name() + " " + companyAdmin.get().getLast_name(),
+                    date.getPickedUp(),
+                    date.getDateTimeInMS());
+
+            trackingOrders.add(order);
+        }
+
+        return trackingOrders;
     }
 }
