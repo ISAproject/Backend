@@ -47,23 +47,30 @@ public class ReservedDateController {
         reservedDateService.sendConfirmationEmail(email,reservedDate);
         return reservation;
     }
-    //@PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
+
     @GetMapping("alldates/{companyId}")
+    @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
     public List<ReservedDatesDto> GetByCompany(@PathVariable Long companyId )
     {
         return reservedDateService.GetByCompany(companyId);
     }
+
     @GetMapping("weekly/{companyId}")
+    @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
     public List<ReservedDatesDto> GetByCompanyByWeek(@PathVariable Long companyId )
     {
         return reservedDateService.GetByCompanyByWeek(companyId);
     }
+
     @GetMapping("monthly/{companyId}/{month}/{year}")
+    @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
     public List<ReservedDatesDto> GetByCompanyByMonth(@PathVariable Long companyId, @PathVariable int month, @PathVariable int year )
     {
         return reservedDateService.GetByCompanyByMonth(companyId,month,year);
     }
+
     @GetMapping("yearly/{companyId}/{year}")
+    @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
     public List<ReservedDatesDto> GetByCompanyByYear(@PathVariable Long companyId, @PathVariable int year )
     {
         return reservedDateService.GetByCompanyByYear(companyId,year);
