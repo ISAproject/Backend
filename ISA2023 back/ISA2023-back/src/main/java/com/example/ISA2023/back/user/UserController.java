@@ -43,8 +43,12 @@ public class UserController {
     }
     @PutMapping("/{id}")
     public User update(@PathVariable Long id, @RequestBody User updatedUser){
-        return userService.update(id,updatedUser);}
-
+        return userService.update(id,updatedUser);
+    }
+    @PutMapping("/updatepassword/{id}")
+    public User updatePassword(@PathVariable Long id, @RequestBody User updatedUser){
+        return userService.updatePassword(id,updatedUser);
+    }
     @GetMapping("/companyAdministratorsByCompanyId/{id}")
     public List<User> getCompanyAdministratorsByCompanyId(@PathVariable long id){
         return userService.getCompanyAdministratorsByCompanyId(id);
@@ -64,5 +68,10 @@ public class UserController {
     @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
     public User updateCompanyAdmin(@PathVariable long id, @RequestBody User user){
         return userService.updateCompanyAdmin(id, user);
+    }
+    @PutMapping("/ispasschanged/{username}")
+    public Boolean isPasswordChanged(@PathVariable String username)
+    {
+        return userService.isPasswordChanges(username);
     }
 }

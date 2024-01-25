@@ -67,6 +67,22 @@ public class UserService {
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             updatedUser.setId(id);
+            //updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+            //updatedUser.setVerified(true);
+            modelMapper.map(updatedUser, user);
+            userRepository.save(user);
+            return user;
+        }
+
+        return null;
+    }
+    public User updatePassword(Long id,User updatedUser){
+        Optional<User> optionalUser= userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            updatedUser.setId(id);
+            updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+            updatedUser.setVerified(true);
             modelMapper.map(updatedUser, user);
             userRepository.save(user);
             return user;
@@ -141,4 +157,17 @@ public class UserService {
 
         return null;
     }
+    public boolean isPasswordChanges(String username)
+    {
+        Optional<User> userOpt = userRepository.findByUsername(username);
+        if (userOpt.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "message: Incorrect credentials!");
+        }
+        if(passwordEncoder.matches("12345", userOpt.get().getPassword())){
+            return false;
+            //throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "message: Incorrect password!");
+        }
+        return true;
+    }
+
 }
