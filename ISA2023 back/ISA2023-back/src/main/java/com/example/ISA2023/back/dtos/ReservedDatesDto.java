@@ -1,14 +1,33 @@
 package com.example.ISA2023.back.dtos;
 
 public class ReservedDatesDto {
+    private Long id;
     private Long duration;
     private Long dateTimeInMS;
     private String companyName;
-
-    public ReservedDatesDto(Long duration, Long dateTimeInMS, String companyName) {
+    private Long companyAdminId;
+    public ReservedDatesDto(Long id,Long duration, Long dateTimeInMS, String companyName,Long companyAdminId) {
         this.duration = duration;
         this.dateTimeInMS = dateTimeInMS;
         this.companyName = companyName;
+        this.id=id;
+        this.companyAdminId=companyAdminId;
+    }
+
+    public Long getCompanyAdminId() {
+        return companyAdminId;
+    }
+
+    public void setCompanyAdminId(Long companyAdminId) {
+        this.companyAdminId = companyAdminId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getDuration() {

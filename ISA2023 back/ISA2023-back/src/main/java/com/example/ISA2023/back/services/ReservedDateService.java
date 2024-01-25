@@ -130,17 +130,21 @@ public class ReservedDateService {
 
         return trackingOrders;
     }
-    public List<ReservedDatesDto> getReservedDatesByUserId(Long userId) {
+    public List<ReservedDatesDto> getReservedDatesByUserId(Long userId,boolean flag) {
         List<ReservedDate> reservedList=reservedDateRepository.findAllByUserId(userId);
         List<ReservedDatesDto> datesDto=new ArrayList<>();
         for (var item:reservedList) {
-            Company company=companyRepository.findById(item.getCompanyId()).get();
-            datesDto.add(new ReservedDatesDto(item.getDuration(),item.getDateTimeInMS(),company.getName()));
+            if(item.getPickedUp()==flag) {
+                Company company = companyRepository.findById(item.getCompanyId()).get();
+                datesDto.add(new ReservedDatesDto(item.getId(),item.getDuration(), item.getDateTimeInMS(), company.getName(),item.getCompanyAdminId()));
+            }
         }
         return datesDto;
 
     }
-
+    public void DeleteReservedDate(Long reservationId){
+        reservedDateRepository.deleteById(reservationId);
+    }
 
     public List<ReservedDatesForCalendarDto>GetByCompany(long companyId)
     {

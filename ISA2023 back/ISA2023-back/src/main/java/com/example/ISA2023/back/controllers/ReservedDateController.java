@@ -63,10 +63,10 @@ public class ReservedDateController {
         reservedDateService.sendConfirmationEmail(email,reservedDate);
         return reservation;
     }
-    @GetMapping("reservedDates/{id}")
-    public List<ReservedDatesDto> getReservedDatesByUserId(@PathVariable Long id){
+    @GetMapping("reservedDates/{id}/{flag}")
+    public List<ReservedDatesDto> getReservedDatesByUserId(@PathVariable Long id,@PathVariable boolean flag){
 
-        return reservedDateService.getReservedDatesByUserId(id);
+        return reservedDateService.getReservedDatesByUserId(id,flag);
     }
     @GetMapping("alldates/{companyId}")
     @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
@@ -94,5 +94,11 @@ public class ReservedDateController {
     public List<ReservedDatesForCalendarDto> GetByCompanyByYear(@PathVariable Long companyId, @PathVariable int year )
     {
         return reservedDateService.GetByCompanyByYear(companyId,year);
+    }
+
+    @DeleteMapping("deleteReservation/{reservationId}")
+    public void DeleteReservedDate(@PathVariable Long reservationId)
+    {
+        reservedDateService.DeleteReservedDate(reservationId);
     }
 }

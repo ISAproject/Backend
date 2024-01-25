@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface IReservedDateRepository extends JpaRepository<ReservedDate, Long > {
     //@Query("SELECT c FROM ReservedDate r WHERE r.user_id=?1")
     List<ReservedDate> findAllByUserId(Long UserId);
-    
+    void deleteById(Long reservationId);
     @Query("SELECT r FROM ReservedDate r WHERE r.CompanyId = ?1")
     public List<ReservedDate> GetByCompany(long companyId);
 
