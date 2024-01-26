@@ -57,6 +57,12 @@ public class ReservedDateController {
         return reservedDateService.create(reservedDate);
     }
 
+    @GetMapping("reservedDatesByCompanyId/{id}")
+    @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
+    public List<TrackingOrderDto> getReservedDatesByCompanyId(@PathVariable Long id){
+        return reservedDateService.getReservedDatesByCompanyId(id);
+    }
+
     @PostMapping("reserve/{email}")
     public ReservedDate reserve(@RequestBody ReservedDate reservedDate,@PathVariable String email){
         ReservedDate reservation=reservedDateService.create(reservedDate);
@@ -94,5 +100,11 @@ public class ReservedDateController {
     public List<ReservedDatesForCalendarDto> GetByCompanyByYear(@PathVariable Long companyId, @PathVariable int year )
     {
         return reservedDateService.GetByCompanyByYear(companyId,year);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
+    public void DeleteById(@PathVariable Long id){
+        reservedDateService.DeleteById(id);
     }
 }

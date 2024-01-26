@@ -1,5 +1,7 @@
 package com.example.ISA2023.back.dtos;
 
+import java.util.List;
+
 public class TrackingOrderDto {
     private Long id;
     private String userName;
@@ -7,15 +9,22 @@ public class TrackingOrderDto {
     private Boolean pickedUp;
     private Long dateTimeInMs;
 
+    private Long duration;
+
+    private List<String> equipmentNames;
+
+
     public TrackingOrderDto() {
     }
 
-    public TrackingOrderDto(Long id, String userName, String companyAdminName, Boolean pickedUp, Long dateTimeInMs) {
+    public TrackingOrderDto(Long id, String userName, String companyAdminName, Boolean pickedUp, Long dateTimeInMs, Long duration, List<String> equipmentNames) {
         this.id = id;
         this.userName = userName;
         this.companyAdminName = companyAdminName;
         this.pickedUp = pickedUp;
         this.dateTimeInMs = dateTimeInMs;
+        this.duration = duration;
+        this.equipmentNames = equipmentNames;
     }
 
     public Long getId() {
@@ -56,5 +65,21 @@ public class TrackingOrderDto {
 
     public void setDateTimeInMs(Long dateTimeInMs) {
         this.dateTimeInMs = dateTimeInMs;
+    }
+
+    public Long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Long duration) {
+        this.duration = duration;
+    }
+
+    public List<String> getEquipmentNames() {
+        return equipmentNames;
+    }
+
+    public void setEquipmentNames(List<String> equipmentNames) {
+        this.equipmentNames = equipmentNames;
     }
 }
