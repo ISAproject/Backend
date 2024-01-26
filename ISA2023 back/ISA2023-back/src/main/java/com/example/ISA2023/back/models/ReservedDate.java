@@ -27,11 +27,12 @@ public class ReservedDate {
     private Long CompanyId;
 
     private Boolean isPickedUp;
+    private String linkToOrder;
 
     public ReservedDate() {
     }
 
-    public ReservedDate(Long id, Long dateTimeInMS, Long userId, List<Long> equipments, Long duration, Long companyAdminId, Boolean isPickedUp,Long companyId) {
+    public ReservedDate(Long id, Long dateTimeInMS, Long userId, List<Long> equipments, Long duration, Long companyAdminId, Boolean isPickedUp,Long companyId,String linkToOrder) {
         Id = id;
         DateTimeInMS = dateTimeInMS;
         this.userId = userId;
@@ -40,15 +41,25 @@ public class ReservedDate {
         CompanyAdminId = companyAdminId;
         this.isPickedUp = isPickedUp;
         CompanyId=companyId;
+        this.linkToOrder=linkToOrder;
     }
 
-    public ReservedDate(Long dateTimeInMS, Long userId, List<Long> equipments, Long duration, Long companyAdminId, Boolean isPickedUp) {
+    public ReservedDate(Long dateTimeInMS, Long userId, List<Long> equipments, Long duration, Long companyAdminId, Boolean isPickedUp,String linkToOrder) {
         DateTimeInMS = dateTimeInMS;
         this.userId = userId;
         Equipments = equipments;
         Duration = duration;
         CompanyAdminId = companyAdminId;
         this.isPickedUp = isPickedUp;
+        this.linkToOrder=linkToOrder;
+    }
+
+    public String getLinkToOrder() {
+        return linkToOrder;
+    }
+
+    public void setLinkToOrder(String linkToOrder) {
+        this.linkToOrder = linkToOrder;
     }
 
     public void setDuration(Long duration) {

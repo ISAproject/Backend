@@ -95,7 +95,8 @@ public class ReservedDateService {
 
             ByteArrayResource imageResource = new ByteArrayResource(image);
             helper.addAttachment("image.png", imageResource);
-
+            order.setLinkToOrder(medium);
+            reservedDateRepository.save(order);
             javaMailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();
@@ -136,12 +137,13 @@ public class ReservedDateService {
         for (var item:reservedList) {
             if(item.getPickedUp()==flag) {
                 Company company = companyRepository.findById(item.getCompanyId()).get();
-                datesDto.add(new ReservedDatesDto(item.getId(),item.getDuration(), item.getDateTimeInMS(), company.getName(),item.getCompanyAdminId()));
+                datesDto.add(new ReservedDatesDto(item.getId(),item.getDuration(), item.getDateTimeInMS(), company.getName(),item.getCompanyAdminId(),item.getLinkToOrder()));
             }
         }
         return datesDto;
 
     }
+
     public void DeleteReservedDate(Long reservationId){
         reservedDateRepository.deleteById(reservationId);
     }

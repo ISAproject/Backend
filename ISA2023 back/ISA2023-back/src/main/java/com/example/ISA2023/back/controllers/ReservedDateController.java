@@ -59,6 +59,7 @@ public class ReservedDateController {
 
     @PostMapping("reserve/{email}")
     public ReservedDate reserve(@RequestBody ReservedDate reservedDate,@PathVariable String email){
+
         ReservedDate reservation=reservedDateService.create(reservedDate);
         reservedDateService.sendConfirmationEmail(email,reservedDate);
         return reservation;
@@ -68,6 +69,7 @@ public class ReservedDateController {
 
         return reservedDateService.getReservedDatesByUserId(id,flag);
     }
+
     @GetMapping("alldates/{companyId}")
     @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
     public List<ReservedDatesForCalendarDto> GetByCompany(@PathVariable Long companyId )

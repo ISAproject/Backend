@@ -6,12 +6,24 @@ public class ReservedDatesDto {
     private Long dateTimeInMS;
     private String companyName;
     private Long companyAdminId;
-    public ReservedDatesDto(Long id,Long duration, Long dateTimeInMS, String companyName,Long companyAdminId) {
+
+    private String linkToOrder;
+
+    public ReservedDatesDto(Long id,Long duration, Long dateTimeInMS, String companyName,Long companyAdminId,String linkToOrder) {
         this.duration = duration;
         this.dateTimeInMS = dateTimeInMS;
         this.companyName = companyName;
         this.id=id;
         this.companyAdminId=companyAdminId;
+        this.linkToOrder=linkToOrder;
+    }
+
+    public String getLinkToOrder() {
+        return linkToOrder;
+    }
+
+    public void setLinkToOrder(String linkToOrder) {
+        this.linkToOrder = linkToOrder;
     }
 
     public Long getCompanyAdminId() {
