@@ -57,6 +57,12 @@ public class ReservedDateController {
         return reservedDateService.create(reservedDate);
     }
 
+    @GetMapping("reservedDatesByCompanyId/{id}")
+    @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
+    public List<TrackingOrderDto> getReservedDatesByCompanyId(@PathVariable Long id){
+        return reservedDateService.getReservedDatesByCompanyId(id);
+    }
+
     @PostMapping("reserve/{email}")
     public ReservedDate reserve(@RequestBody ReservedDate reservedDate,@PathVariable String email){
 
@@ -102,5 +108,10 @@ public class ReservedDateController {
     public void DeleteReservedDate(@PathVariable Long reservationId)
     {
         reservedDateService.DeleteReservedDate(reservationId);
+    }
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
+    public void DeleteById(@PathVariable Long id){
+        reservedDateService.DeleteById(id);
     }
 }
