@@ -74,3 +74,12 @@ INSERT INTO public.equipment (
     (-8, -3, 'Medical Equipment 8', 3.7, 'HealthMaster Precision', 14, 3),
     (-9, -4, 'Medical Equipment 9', 4.3, 'SonoCare Ultra', 22, 0),
     (-10, -5, 'Medical Equipment 10', 3.6, 'CareTech Insight', 16, 1);
+
+INSERT INTO public.reserved_date(
+	id, company_admin_id, company_id, date_time_inms, duration, equipments, is_picked_up, user_id)
+	VALUES 
+        (-1, -10, -2, 1707130800000, 60, ARRAY[-1, -2], false, -1),
+        (-2, -11, -2, 1707562800000, 60, ARRAY[-5, -10], false, -1),
+        (-3, -12, -1, 1707564600000, 60, ARRAY[-6], false, -2),
+        (-4, -13, -2, 1707553800000, 60, ARRAY[-8, -9, -10], false, -1),
+        (-5, -15, -5, 1707467400000, 60, ARRAY[-1, -2, -9], false, -1);

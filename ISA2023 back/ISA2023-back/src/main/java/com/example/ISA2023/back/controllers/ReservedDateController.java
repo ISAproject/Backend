@@ -3,6 +3,7 @@ package com.example.ISA2023.back.controllers;
 import com.example.ISA2023.back.dtos.TrackingOrderDto;
 import com.example.ISA2023.back.dtos.ReservedDatesDto;
 import com.example.ISA2023.back.dtos.ReservedDatesForCalendarDto;
+import com.example.ISA2023.back.models.Company;
 import com.example.ISA2023.back.models.Equipment;
 import com.example.ISA2023.back.models.ReservedDate;
 import com.example.ISA2023.back.services.ReservedDateService;
@@ -107,4 +108,12 @@ public class ReservedDateController {
     public void DeleteById(@PathVariable Long id){
         reservedDateService.DeleteById(id);
     }
+
+    @PutMapping("updatePickedUpStatus/{id}/{status}")
+    @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
+    public ReservedDate update(@PathVariable Long id, @PathVariable Boolean status){
+        return reservedDateService.updatePickedUpStatus(id, status);
+    }
+
+
 }
