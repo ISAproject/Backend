@@ -3,6 +3,8 @@ package com.example.ISA2023.back.user;
 import com.example.ISA2023.back.dtos.JwtAuthenticationRequest;
 import com.example.ISA2023.back.dtos.UserTokenState;
 import com.example.ISA2023.back.models.Company;
+import com.example.ISA2023.back.models.ReservedDate;
+import com.example.ISA2023.back.models.irepositories.IReservedDateRepository;
 import com.example.ISA2023.back.security.JwtUtils;
 import com.example.ISA2023.back.models.irepositories.CompanyRepository;
 import org.modelmapper.ModelMapper;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.List;
 
@@ -27,6 +30,7 @@ import java.util.List;
 public class UserService {
     private final IUserRepository userRepository;
     private final CompanyRepository companyRepository;
+    private final IReservedDateRepository reservedDateRepository;
     @Autowired
     private JavaMailSender javaMailSender;
     @Autowired
@@ -40,9 +44,10 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
     
     @Autowired
-    public UserService(IUserRepository userRepository, CompanyRepository companyRepository) {
+    public UserService(IUserRepository userRepository, CompanyRepository companyRepository, IReservedDateRepository reservedDateRepository) {
         this.userRepository = userRepository;
         this.companyRepository = companyRepository;
+        this.reservedDateRepository = reservedDateRepository;
     }
 
     public void sendVerificationEmail(User user) {
@@ -168,6 +173,23 @@ public class UserService {
             //throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "message: Incorrect password!");
         }
         return true;
+    }
+
+    public List<User> getUsersWithOrdersByComapny(Long companyId){
+        List<User> users = new ArrayList<User>();
+
+        List<ReservedDate> reservedDates = reservedDateRepository.findAll()
+                        .stream()
+                        .filter(reservedDate -> reservedDate.getCompanyId().equals(companyId)).toList();
+
+        for(var date : reservedDates){
+            var user = userRepository.getUserById(date.getUserId());
+
+            if(!users.contains(user))
+                users.add(user);
+        }
+
+        return users;
     }
 
 }

@@ -74,4 +74,10 @@ public class UserController {
     {
         return userService.isPasswordChanges(username);
     }
+
+    @GetMapping("usersWithOrders/{id}")
+    @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
+    public List<User> GetUsersWithOrdersByComapny(@PathVariable Long id){
+        return userService.getUsersWithOrdersByComapny(id);
+    }
 }

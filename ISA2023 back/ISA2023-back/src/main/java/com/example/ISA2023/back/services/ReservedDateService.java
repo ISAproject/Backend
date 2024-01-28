@@ -53,6 +53,76 @@ public class ReservedDateService {
         return reservedDateRepository.save(reservedDate);
     }
 
+    public List<TrackingOrderDto> getReservedDatesByCompanyId(Long id){
+        List<ReservedDate> reservedDatesOfCompany = reservedDateRepository.findAll()
+                .stream()
+                .filter(equipment -> equipment.getCompanyId().equals((id))).toList();
+
+        List<TrackingOrderDto> trackingOrders = new ArrayList<TrackingOrderDto>();
+
+        for(var date : reservedDatesOfCompany){
+            var companyAdmin = userRepository.findById(date.getCompanyAdminId());
+            var user = userRepository.findById(date.getUserId());
+
+            List<Long> equipmentIds = new ArrayList<Long>();
+            List<String> equipmentNames = new ArrayList<String>();
+
+            for(var equipment : date.getEquipments()){
+                var eq = equipmentRepository.findById(equipment);
+                equipmentIds.add(equipment);
+                equipmentNames.add(eq.get().getName() + " - " + eq.get().getType().toString());
+            }
+
+            TrackingOrderDto order = new TrackingOrderDto(date.getId(),
+                    date.getUserId(),
+                    user.get().getFirst_name() + " " + user.get().getLast_name(),
+                    companyAdmin.get().getFirst_name() + " " + companyAdmin.get().getLast_name(),
+                    date.getPickedUp(),
+                    date.getDateTimeInMS(),
+                    date.getDuration(),
+                    equipmentNames,
+                    equipmentIds);
+
+            trackingOrders.add(order);
+        }
+
+        return trackingOrders;
+    }
+
+    public ReservedDate updatePickedUpStatus(Long id, Boolean status){
+        Optional<ReservedDate> optionalReservedDate = reservedDateRepository.findById(id);
+        if(optionalReservedDate.isPresent()){
+            var existingReservedDate = optionalReservedDate.get();
+            existingReservedDate.setPickedUp(status);
+            reservedDateRepository.save(existingReservedDate);
+
+            String equipmentNames = "";
+
+            List<Long> equipments = existingReservedDate.getEquipments();
+            for(var equipment : equipments){
+                var eq = equipmentRepository.findById(equipment);
+
+                equipmentNames += eq.get().getName() + " - " + eq.get().getType().toString() + "\n";
+            }
+
+            sendEquipmentsPickedUpEmail(userRepository.getUserById(existingReservedDate.getUserId()), equipmentNames);
+            return existingReservedDate;
+        }
+
+        return null;
+    }
+
+    public void sendEquipmentsPickedUpEmail(User user,String equimentNames) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(user.getEmail());
+        message.setSubject("Equipments pickup");
+        message.setText("Dear " + user.getFirst_name() + ",\n\n"
+                + "Thank you ordering: \n"
+                + equimentNames
+                + " \nfrom our company.");
+
+        javaMailSender.send(message);
+    }
     public List<Equipment> findEquipmentByReservationDateId(Long id){
         List<Long> equipmentIds=reservedDateRepository.findById(id).get().getEquipments();
         return GetAllEquipments(equipmentIds);
@@ -120,11 +190,24 @@ public class ReservedDateService {
             var companyAdmin = userRepository.findById(date.getCompanyAdminId());
             var user = userRepository.findById(date.getUserId());
 
+            List<Long> equipmentIds = new ArrayList<Long>();
+            List<String> equipmentNames = new ArrayList<String>();
+
+            for(var equipment : date.getEquipments()){
+                var eq = equipmentRepository.findById(equipment);
+                equipmentIds.add(equipment);
+                equipmentNames.add(eq.get().getName() + " - " + eq.get().getType().toString());
+            }
+
             TrackingOrderDto order = new TrackingOrderDto(date.getId(),
+                    date.getUserId(),
                     user.get().getFirst_name() + " " + user.get().getLast_name(),
                     companyAdmin.get().getFirst_name() + " " + companyAdmin.get().getLast_name(),
                     date.getPickedUp(),
-                    date.getDateTimeInMS());
+                    date.getDateTimeInMS(),
+                    date.getDuration(),
+                    equipmentNames,
+                    equipmentIds);
 
             trackingOrders.add(order);
         }
@@ -257,5 +340,9 @@ public class ReservedDateService {
         Comparator<ReservedDatesForCalendarDto> comparator = Comparator.comparing(ReservedDatesForCalendarDto::getDateTimeInMS);
         datesMonth.sort(comparator);
         return datesMonth;
+    }
+
+    public void DeleteById(Long id){
+        reservedDateRepository.deleteById(id);
     }
 }
