@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IContractRepository extends JpaRepository<Contract, Long > {
+    Contract findByUserId(Long userId);
+
+    void deleteById(Long userId);
 }

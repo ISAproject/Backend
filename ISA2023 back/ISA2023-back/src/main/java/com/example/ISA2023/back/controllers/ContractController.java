@@ -6,10 +6,7 @@ import com.example.ISA2023.back.services.CompanyService;
 import com.example.ISA2023.back.services.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,4 +22,13 @@ public class ContractController {
 
     @GetMapping
     public List<Contract> getAll(){return contractService.getContracts();}
+    @PostMapping
+    public Contract createContarct(@RequestBody Contract contract){return contractService.create(contract);}
+
+    @GetMapping("/{userId}")
+    public Contract getContarctByUserId(@PathVariable Long userId){return contractService.getByUserId(userId);}
+
+    @DeleteMapping("/{userId}")
+    public void deleteByUserId(@PathVariable Long userId){contractService.deleteByUserId(userId);}
+
 }
