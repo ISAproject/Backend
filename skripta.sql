@@ -82,4 +82,5 @@ INSERT INTO public.reserved_date(
         (-2, -11, -2, 1707562800000, 60, ARRAY[-5, -10], false, -1,'http://localhost:3000/qrcode-equipment/-2'),
         (-3, -12, -1, 1707564600000, 60, ARRAY[-6], false, -2,'http://localhost:3000/qrcode-equipment/-3'),
         (-4, -13, -2, 1707553800000, 60, ARRAY[-8, -9, -10], false, -1,'http://localhost:3000/qrcode-equipment/-4'),
-        (-5, -15, -5, 1707467400000, 60, ARRAY[-1, -2, -9], false, -1,'http://localhost:3000/qrcode-equipment/-5');
+        (-5, -15, -5, 1707467400000, 60, ARRAY[-1, -2, -9], false, -1,'http://localhost:3000/qrcode-equipment/-5'),
+        (-6, -10, -2, 1707467400000, 60, ARRAY[-10], false, -2);

@@ -222,7 +222,7 @@ public class ReservedDateService {
             TrackingOrderDto order = new TrackingOrderDto(date.getId(),
                     date.getUserId(),
                     user.get().getFirst_name() + " " + user.get().getLast_name(),
-                    companyAdmin.get().getFirst_name() + " " + companyAdmin.get().getLast_name(),
+                    companyAdmin.isPresent() ? companyAdmin.get().getFirst_name() + " " + companyAdmin.get().getLast_name() : "",
                     date.getPickedUp(),
                     date.getDateTimeInMS(),
                     date.getDuration(),
