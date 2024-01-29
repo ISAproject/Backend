@@ -3,6 +3,7 @@ package com.example.ISA2023.back.controllers;
 import com.example.ISA2023.back.dtos.TrackingOrderDto;
 import com.example.ISA2023.back.dtos.ReservedDatesDto;
 import com.example.ISA2023.back.dtos.ReservedDatesForCalendarDto;
+import com.example.ISA2023.back.models.Company;
 import com.example.ISA2023.back.models.Equipment;
 import com.example.ISA2023.back.models.ReservedDate;
 import com.example.ISA2023.back.services.ReservedDateService;
@@ -57,6 +58,12 @@ public class ReservedDateController {
         return reservedDateService.create(reservedDate);
     }
 
+    @GetMapping("reservedDatesByCompanyId/{id}")
+    @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
+    public List<TrackingOrderDto> getReservedDatesByCompanyId(@PathVariable Long id){
+        return reservedDateService.getReservedDatesByCompanyId(id);
+    }
+
     @PostMapping("reserve/{email}")
     public ReservedDate reserve(@RequestBody ReservedDate reservedDate,@PathVariable String email){
 
@@ -103,4 +110,18 @@ public class ReservedDateController {
     {
         reservedDateService.DeleteReservedDate(reservationId);
     }
+    
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
+    public void DeleteById(@PathVariable Long id){
+        reservedDateService.DeleteById(id);
+    }
+
+    @PutMapping("updatePickedUpStatus/{id}/{status}")
+    @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
+    public ReservedDate update(@PathVariable Long id, @PathVariable Boolean status){
+        return reservedDateService.updatePickedUpStatus(id, status);
+    }
+
+
 }

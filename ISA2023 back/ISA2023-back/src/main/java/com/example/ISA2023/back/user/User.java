@@ -35,6 +35,9 @@ public class User implements UserDetails {
     private String company_info;
     private UserRole role;
     private boolean is_verified;
+
+    private int penaltyPoints;
+
     public UserRole getRole() {
         return role;
     }
@@ -58,7 +61,7 @@ public class User implements UserDetails {
     }
 
     public User(String username, String email, String password, String first_name, String last_name,
-                String state, String city, String tel_number, String occupation, String company_info, UserRole role, boolean isVerified, boolean isFirstLogin) {
+                String state, String city, String tel_number, String occupation, String company_info, UserRole role, boolean isVerified, boolean isFirstLogin, int penaltyPoints) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -72,10 +75,11 @@ public class User implements UserDetails {
         this.role = role;
         this.is_verified = isVerified;
         this.isFirstLogin = isFirstLogin;
+        this.penaltyPoints = penaltyPoints;
     }
 
     public User(Long id, String username, String email, String password, String first_name, String last_name, String state,
-                String city, String tel_number, String occupation, String company_info, UserRole role, boolean isVerified, boolean isFirstLogin) {
+                String city, String tel_number, String occupation, String company_info, UserRole role, boolean isVerified, boolean isFirstLogin, int penaltyPoints) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -90,6 +94,7 @@ public class User implements UserDetails {
         this.role = role;
         this.is_verified = isVerified;
         this.isFirstLogin = isFirstLogin;
+        this.penaltyPoints = penaltyPoints;
     }
 
     public Long getId() {
@@ -178,6 +183,14 @@ public class User implements UserDetails {
 
     public void setFirstLogin(boolean firstLogin) {
         isFirstLogin = firstLogin;
+    }
+
+    public int getPenaltyPoints() {
+        return penaltyPoints;
+    }
+
+    public void setPenaltyPoints(int penaltyPoints) {
+        this.penaltyPoints = penaltyPoints;
     }
 
     @Override
