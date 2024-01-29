@@ -42,7 +42,7 @@ public class UserService {
     @Autowired
 
     private PasswordEncoder passwordEncoder;
-    
+
     @Autowired
     public UserService(IUserRepository userRepository, CompanyRepository companyRepository, IReservedDateRepository reservedDateRepository) {
         this.userRepository = userRepository;
@@ -190,6 +190,13 @@ public class UserService {
         }
 
         return users;
+    }
+    public void resetPenalty(){
+        List<User> users=userRepository.findAll();
+        for (var user:users) {
+            user.setPenaltyPoints(0);
+        }
+        userRepository.saveAll(users);
     }
 
 }

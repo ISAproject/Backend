@@ -67,9 +67,13 @@ public class ReservedDateController {
     @PostMapping("reserve/{email}")
     public ReservedDate reserve(@RequestBody ReservedDate reservedDate,@PathVariable String email){
 
-        ReservedDate reservation=reservedDateService.create(reservedDate);
+
+        //reservedDateService.sendConfirmationEmail(email,reservedDate);
+        return reservedDateService.create(reservedDate);
+    }
+    @PostMapping("sendMail/{email}")
+    public void sendMail(@RequestBody ReservedDate reservedDate,@PathVariable String email){
         reservedDateService.sendConfirmationEmail(email,reservedDate);
-        return reservation;
     }
     @GetMapping("reservedDates/{id}/{flag}")
     public List<ReservedDatesDto> getReservedDatesByUserId(@PathVariable Long id,@PathVariable boolean flag){

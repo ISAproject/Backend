@@ -15,9 +15,11 @@ import com.example.ISA2023.back.utils.QRCodeGenerator;
 import com.google.zxing.WriterException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.persistence.LockModeType;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -49,7 +51,25 @@ public class ReservedDateService {
     }
 
     public List<ReservedDate> getAll() { return reservedDateRepository.findAll();}
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     public ReservedDate create(ReservedDate reservedDate){
+        for (var equipId:reservedDate.getEquipments()) {
+            if(equipmentRepository.GetEquipmentById(equipId).getQuantity()<=0){
+                return null;
+            }
+        }
+        List<ReservedDate>dates=reservedDateRepository.findAllByCompanyId(reservedDate.getCompanyId());
+        Long start1=reservedDate.getDateTimeInMS();
+        Long end1=start1+reservedDate.getDuration()*60000;
+
+        for (var date:dates) {
+            Long start2=date.getDateTimeInMS();
+            Long end2=start2+date.getDuration()*60000;
+            if((start1 <= end2) && (end1 >= start2)){
+                return  null;
+            }
+        }
+
         return reservedDateRepository.save(reservedDate);
     }
 
