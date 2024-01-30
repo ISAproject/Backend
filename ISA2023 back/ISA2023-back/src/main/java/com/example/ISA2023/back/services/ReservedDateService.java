@@ -26,6 +26,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.Clock;
@@ -54,13 +55,14 @@ public class ReservedDateService {
     }
 
     public List<ReservedDate> getAll() { return reservedDateRepository.findAll();}
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Transactional
     public ReservedDate create(ReservedDate reservedDate){
         for (var equipId:reservedDate.getEquipments()) {
             if(equipmentRepository.GetEquipmentById(equipId).getQuantity()<=0){
                 return null;
             }
         }
+
         List<ReservedDate>dates=reservedDateRepository.findAllByCompanyId(reservedDate.getCompanyId());
         Long start1=reservedDate.getDateTimeInMS();
         Long end1=start1+reservedDate.getDuration()*60000;

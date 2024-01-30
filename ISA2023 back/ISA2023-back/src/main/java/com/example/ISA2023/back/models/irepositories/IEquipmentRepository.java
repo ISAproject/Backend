@@ -3,7 +3,9 @@ package com.example.ISA2023.back.models.irepositories;
 import com.example.ISA2023.back.models.Company;
 import com.example.ISA2023.back.models.Equipment;
 import com.example.ISA2023.back.models.EquipmentType;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +28,7 @@ public interface IEquipmentRepository extends JpaRepository<Equipment, Long > {
     List<Equipment> findEquipmentByCompany( Long companyId);
     @Query("SELECT e FROM Equipment e")
     List<Equipment> GetAllEquipment();
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT e FROM Equipment e WHERE e.id=?1")
     Equipment GetEquipmentById(Long id);
     @Query("SELECT e FROM Equipment e WHERE LOWER(e.name) LIKE ?1% AND e.grade>=?2")
