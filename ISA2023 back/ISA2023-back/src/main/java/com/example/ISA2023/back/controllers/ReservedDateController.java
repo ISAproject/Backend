@@ -9,6 +9,7 @@ import com.example.ISA2023.back.models.ReservedDate;
 import com.example.ISA2023.back.services.ReservedDateService;
 import com.example.ISA2023.back.user.User;
 import com.example.ISA2023.back.utils.QRCodeGenerator;
+import com.google.zxing.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -16,13 +17,16 @@ import com.google.zxing.WriterException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
@@ -126,6 +130,22 @@ public class ReservedDateController {
     public ReservedDate update(@PathVariable Long id, @PathVariable Boolean status){
         return reservedDateService.updatePickedUpStatus(id, status);
     }
+    @PostMapping("uploadQRCode")
+    public void ScanQRCode(@RequestParam("qrCode") MultipartFile qrCode) throws NotFoundException, IOException {
+        byte[] qrCodeBytes = qrCode.getBytes();
+        String text=reservedDateService.HandleQRCode(qrCodeBytes);
 
+        System.out.println(text);
+
+        String [] separate=text.split("/");
+        Long orderId=Long.parseLong(separate[separate.length-1]);
+        System.out.println(orderId);
+    }
+    @PostMapping("upload")
+    public String handleImageUpload(@RequestParam("qrCode") MultipartFile image) {
+        // Process the image file on the server (e.g., save it to a directory or perform image processing)
+        // You can also return a response if needed
+        return "Image uploaded successfully";
+    }
 
 }

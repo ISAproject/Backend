@@ -5,6 +5,7 @@ import com.example.ISA2023.back.dtos.ReservedDatesDto;
 import com.example.ISA2023.back.dtos.ReservedDatesForCalendarDto;
 import com.example.ISA2023.back.models.Company;
 import com.example.ISA2023.back.models.Equipment;
+import com.example.ISA2023.back.models.QRCodeStatus;
 import com.example.ISA2023.back.models.ReservedDate;
 import com.example.ISA2023.back.models.irepositories.CompanyRepository;
 import com.example.ISA2023.back.models.irepositories.IEquipmentRepository;
@@ -12,6 +13,7 @@ import com.example.ISA2023.back.models.irepositories.IReservedDateRepository;
 import com.example.ISA2023.back.user.IUserRepository;
 import com.example.ISA2023.back.user.User;
 import com.example.ISA2023.back.utils.QRCodeGenerator;
+import com.google.zxing.NotFoundException;
 import com.google.zxing.WriterException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -26,6 +28,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.Clock;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -69,7 +72,7 @@ public class ReservedDateService {
                 return  null;
             }
         }
-
+        reservedDate.setQrCodeStatus(QRCodeStatus.NEW);
         return reservedDateRepository.save(reservedDate);
     }
 
@@ -105,7 +108,6 @@ public class ReservedDateService {
 
             trackingOrders.add(order);
         }
-
         return trackingOrders;
     }
 
@@ -364,5 +366,10 @@ public class ReservedDateService {
 
     public void DeleteById(Long id){
         reservedDateRepository.deleteById(id);
+    }
+
+    public String HandleQRCode(byte[] qrCode) throws NotFoundException, IOException {
+        String text= QRCodeGenerator.decodeQR(qrCode);
+        return text;
     }
 }
