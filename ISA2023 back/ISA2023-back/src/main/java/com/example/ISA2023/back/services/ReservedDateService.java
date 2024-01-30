@@ -116,6 +116,10 @@ public class ReservedDateService {
         if(optionalReservedDate.isPresent()){
             var existingReservedDate = optionalReservedDate.get();
             existingReservedDate.setPickedUp(status);
+            if(existingReservedDate.getPickedUp())
+                existingReservedDate.setQrCodeStatus(QRCodeStatus.ACCEPTED);
+            else
+                existingReservedDate.setQrCodeStatus(QRCodeStatus.DENIED);
             reservedDateRepository.save(existingReservedDate);
 
             String equipmentNames = "";
@@ -369,7 +373,29 @@ public class ReservedDateService {
     }
 
     public String HandleQRCode(byte[] qrCode) throws NotFoundException, IOException {
-        String text= QRCodeGenerator.decodeQR(qrCode);
-        return text;
+        try
+        {
+            String text= QRCodeGenerator.decodeQR(qrCode);
+            String [] separate=text.split("/");
+            Long orderId=Long.parseLong(separate[separate.length-1]);
+            if(!CheckIsScanned(orderId))
+            {
+                updatePickedUpStatus(orderId, true);
+                return orderId.toString();
+            }
+        }
+        catch(Exception e)
+        {
+            if(e.getMessage().contains("null"))
+                return "Error";
+            else
+                return "Scanned";
+        }
+        return "Scanned";
+    }
+    public boolean CheckIsScanned(Long id)
+    {
+        ReservedDate rd=FindById(id);
+        return rd.getQrCodeStatus()==QRCodeStatus.ACCEPTED || rd.getQrCodeStatus()==QRCodeStatus.DENIED;
     }
 }

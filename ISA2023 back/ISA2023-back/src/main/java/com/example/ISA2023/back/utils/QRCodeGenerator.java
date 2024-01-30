@@ -49,44 +49,6 @@ public class QRCodeGenerator {
         return pngData;
     }
 
-    /*public static String decodeQRCode(byte[] qrCodeImage) {
-        try {
-            logInputData(qrCodeImage);
-
-            BufferedImage bufferedImage = readImage(qrCodeImage);
-            if (bufferedImage != null) {
-                BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(bufferedImage)));
-                Result result = new MultiFormatReader().decode(binaryBitmap);
-                return result.getText();
-            } else {
-                return "Error decoding QR code: BufferedImage is null.";
-            }
-        } catch (IOException | NotFoundException e) {
-            e.printStackTrace();
-            return "Error decoding QR code: " + e.getMessage();
-        }
-    }
-
-    private static void logInputData(byte[] qrCodeImage) {
-        System.out.println("Input data length: " + qrCodeImage.length);
-        // Add more logging as needed, depending on your requirements
-        System.out.println("Sample Bytes: " + Arrays.toString(Arrays.copyOfRange(qrCodeImage, 0, Math.min(qrCodeImage.length, 10))));
-
-    }
-
-    private static BufferedImage readImage(byte[] qrCodeImage) throws IOException {
-        ByteArrayInputStream bis = new ByteArrayInputStream(qrCodeImage);
-
-        // Log the supported image formats
-        //String[] formatNames = ImageIO.getReaderFormatNames();
-        //System.out.println("Supported Image Formats: " + Arrays.toString(formatNames));
-        //File slika=new File(bis);
-        return ImageIO.read(new File("C:\\Users\\strah\\Downloads\\qr_img.png"));
-
-
-    }*/
-
-
 
     public static String decodeQR(byte[] qrCodeBytes) {
         try {

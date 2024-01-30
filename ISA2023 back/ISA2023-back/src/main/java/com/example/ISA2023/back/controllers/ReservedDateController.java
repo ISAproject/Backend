@@ -131,21 +131,30 @@ public class ReservedDateController {
         return reservedDateService.updatePickedUpStatus(id, status);
     }
     @PostMapping("uploadQRCode")
-    public void ScanQRCode(@RequestParam("qrCode") MultipartFile qrCode) throws NotFoundException, IOException {
-        byte[] qrCodeBytes = qrCode.getBytes();
-        String text=reservedDateService.HandleQRCode(qrCodeBytes);
+    public Long ScanQRCode(@RequestParam("qrCode") MultipartFile qrCode) throws NotFoundException, IOException {
+        try
+        {
+            byte[] qrCodeBytes = qrCode.getBytes();
+            String text=reservedDateService.HandleQRCode(qrCodeBytes);
+            if(text.equals("Scanned"))
+                return Long.parseLong( "9696969");
+            else
+            {
+                if(text.equals("Error"))
+                    return Long.parseLong( "96969699");
+                else
+                    return Long.parseLong(text);
+            }
 
-        System.out.println(text);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+            if(!e.getMessage().contains("null"))
+                return Long.parseLong( "9696969");
+            else
+                return Long.parseLong( "96969699");
+        }
 
-        String [] separate=text.split("/");
-        Long orderId=Long.parseLong(separate[separate.length-1]);
-        System.out.println(orderId);
     }
-    @PostMapping("upload")
-    public String handleImageUpload(@RequestParam("qrCode") MultipartFile image) {
-        // Process the image file on the server (e.g., save it to a directory or perform image processing)
-        // You can also return a response if needed
-        return "Image uploaded successfully";
-    }
-
 }
