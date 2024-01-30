@@ -28,9 +28,13 @@ public interface IEquipmentRepository extends JpaRepository<Equipment, Long > {
     List<Equipment> findEquipmentByCompany( Long companyId);
     @Query("SELECT e FROM Equipment e")
     List<Equipment> GetAllEquipment();
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+
     @Query("SELECT e FROM Equipment e WHERE e.id=?1")
     Equipment GetEquipmentById(Long id);
     @Query("SELECT e FROM Equipment e WHERE LOWER(e.name) LIKE ?1% AND e.grade>=?2")
     List<Equipment> findEquipmentByNameAndRating(String name, double rating);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT e FROM Equipment e WHERE e.id=?1")
+    Equipment GetEquipmentByIdTransactional(Long id);
 }

@@ -5,6 +5,7 @@ import com.example.ISA2023.back.models.Equipment;
 import com.example.ISA2023.back.models.EquipmentType;
 import com.example.ISA2023.back.models.irepositories.CompanyRepository;
 import com.example.ISA2023.back.models.irepositories.IEquipmentRepository;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

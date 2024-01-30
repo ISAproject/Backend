@@ -18,8 +18,12 @@ public interface IReservedDateRepository extends JpaRepository<ReservedDate, Lon
     void deleteById(Long reservationId);
     @Query("SELECT r FROM ReservedDate r WHERE r.CompanyId = ?1")
     public List<ReservedDate> GetByCompany(long companyId);
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+
     @Query("SELECT r FROM ReservedDate r WHERE r.CompanyId = ?1")
     List<ReservedDate> findAllByCompanyId(long companyId);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT r FROM ReservedDate r WHERE r.CompanyId = ?1")
+    List<ReservedDate> findAllByCompanyIdTransactional(long companyId);
 
 }
