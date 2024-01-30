@@ -242,7 +242,7 @@ public class ReservedDateService {
         for (var item:reservedList) {
             if(item.getPickedUp()==flag) {
                 Company company = companyRepository.findById(item.getCompanyId()).get();
-                datesDto.add(new ReservedDatesDto(item.getId(),item.getDuration(), item.getDateTimeInMS(), company.getName(),item.getCompanyAdminId(),item.getLinkToOrder()));
+                datesDto.add(new ReservedDatesDto(item.getId(),item.getDuration(), item.getDateTimeInMS(), company.getName(),item.getCompanyAdminId(),item.getLinkToOrder(),item.getQrCodeStatus()));
             }
         }
         return datesDto;
