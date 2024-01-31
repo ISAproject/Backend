@@ -12,13 +12,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MQConfig {
     public static final String QUEUE = "messageQueue";
+    public static final String QUEUE_FOR_MAP = "mapQueue";
     public static final String EXCHANGE = "messageExchange";
+    public static final String MAP_EXCHANGE = "mapExchange";
     public static final String MESSAGE_ROUTING_KEY = "messageRoutingKey";
-
+    public static final String MAP_ROUTING_KEY = "mapRoutingKey";
     public static final String QUEUE_SENDING = "messageQueueUser";
     public static final String EXCHANGE_SENDING = "messageExchangeUser";
     public static final String MESSAGE_ROUTING_KEY_SENDING = "messageRoutingKeyUser";
-
     @Bean
     public Queue queue() {
         return new Queue(QUEUE);
@@ -65,4 +66,24 @@ public class MQConfig {
         template.setMessageConverter(messageConverer());
         return template;
     }
+
+
+    @Bean public Queue queueMap()
+    {
+        return new Queue(QUEUE_FOR_MAP);
+    }
+
+    @Bean public TopicExchange exchangeMap()
+    {
+        return new TopicExchange(MAP_EXCHANGE);
+    }
+
+    @Bean
+    public Binding bindingMap(Queue queue,  @Qualifier("exchange") TopicExchange exchange)
+    {
+        return BindingBuilder.bind(queue)
+                .to(exchangeMap())
+                .with(MAP_ROUTING_KEY);
+    }
+
 }
