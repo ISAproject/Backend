@@ -44,8 +44,7 @@ public class ContractController {
     public String sendMessage(@RequestBody CustomMessage message){
         message.setMessageId(UUID.randomUUID().toString());
         message.setMessageDate(new Date());
-        template.convertAndSend(MQConfig.EXCHANGE_SENDING,
-                MQConfig.MESSAGE_ROUTING_KEY_SENDING,
+        template.convertAndSend(MQConfig.QUEUE_SENDING,
                 message);
 
         return "Message sent";

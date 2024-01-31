@@ -8,7 +8,6 @@ import java.util.List;
 
 @Entity
 @Table
-@Component
 public class Contract {
     @Id
     @SequenceGenerator(
@@ -39,11 +38,7 @@ public class Contract {
         this.quantity = quantity;
     }
 
-    @RabbitListener(queues = MQConfig.QUEUE)
-    public void listener(CustomMessage message){
-        //System.out.println(message);
-        System.out.println(message.getMessage());
-    }
+
 
     public Long getId() {
         return id;

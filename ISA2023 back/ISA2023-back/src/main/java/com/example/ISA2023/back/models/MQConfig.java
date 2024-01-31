@@ -37,7 +37,7 @@ public class MQConfig {
         return new TopicExchange(EXCHANGE_SENDING);
     }
 
-    @Bean
+    /*@Bean
     public Binding binding(Queue queue, @Qualifier("exchange") TopicExchange topicExchange){
         return BindingBuilder
                 .bind(queue)
@@ -51,7 +51,7 @@ public class MQConfig {
                 .bind(queueSending)
                 .to(exchangeSending())
                 .with(MESSAGE_ROUTING_KEY_SENDING);
-    }
+    }*/
 
     @Bean
     public MessageConverter messageConverer() {

@@ -19,8 +19,7 @@ public class MessageController {
     public String publishMessage(@RequestBody CustomMessage message){
         message.setMessageId(UUID.randomUUID().toString());
         message.setMessageDate(new Date());
-        template.convertAndSend(MQConfig.EXCHANGE,
-                MQConfig.MESSAGE_ROUTING_KEY,
+        template.convertAndSend(MQConfig.QUEUE,
                 message);
 
         return "Message sent";
