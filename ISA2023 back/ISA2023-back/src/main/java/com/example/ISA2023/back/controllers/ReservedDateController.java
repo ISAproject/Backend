@@ -3,6 +3,7 @@ package com.example.ISA2023.back.controllers;
 import com.example.ISA2023.back.dtos.TrackingOrderDto;
 import com.example.ISA2023.back.dtos.ReservedDatesDto;
 import com.example.ISA2023.back.dtos.ReservedDatesForCalendarDto;
+import com.example.ISA2023.back.models.Company;
 import com.example.ISA2023.back.models.Equipment;
 import com.example.ISA2023.back.models.ReservedDate;
 import com.example.ISA2023.back.services.ReservedDateService;
@@ -66,9 +67,13 @@ public class ReservedDateController {
     @PostMapping("reserve/{email}")
     public ReservedDate reserve(@RequestBody ReservedDate reservedDate,@PathVariable String email){
 
-        ReservedDate reservation=reservedDateService.create(reservedDate);
+
+        //reservedDateService.sendConfirmationEmail(email,reservedDate);
+        return reservedDateService.create(reservedDate);
+    }
+    @PostMapping("sendMail/{email}")
+    public void sendMail(@RequestBody ReservedDate reservedDate,@PathVariable String email){
         reservedDateService.sendConfirmationEmail(email,reservedDate);
-        return reservation;
     }
     @GetMapping("reservedDates/{id}/{flag}")
     public List<ReservedDatesDto> getReservedDatesByUserId(@PathVariable Long id,@PathVariable boolean flag){
@@ -109,9 +114,18 @@ public class ReservedDateController {
     {
         reservedDateService.DeleteReservedDate(reservationId);
     }
+    
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
     public void DeleteById(@PathVariable Long id){
         reservedDateService.DeleteById(id);
     }
+
+    @PutMapping("updatePickedUpStatus/{id}/{status}")
+    @PreAuthorize("hasAuthority('ROLL_COMPANY_ADMIN')")
+    public ReservedDate update(@PathVariable Long id, @PathVariable Boolean status){
+        return reservedDateService.updatePickedUpStatus(id, status);
+    }
+
+
 }

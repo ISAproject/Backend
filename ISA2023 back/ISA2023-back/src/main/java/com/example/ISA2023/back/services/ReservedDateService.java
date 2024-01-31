@@ -15,13 +15,17 @@ import com.example.ISA2023.back.utils.QRCodeGenerator;
 import com.google.zxing.WriterException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.persistence.LockModeType;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -49,7 +53,26 @@ public class ReservedDateService {
     }
 
     public List<ReservedDate> getAll() { return reservedDateRepository.findAll();}
+    @Transactional(propagation = Propagation.REQUIRED)
     public ReservedDate create(ReservedDate reservedDate){
+        for (var equipId:reservedDate.getEquipments()) {
+            if(equipmentRepository.GetEquipmentByIdTransactional(equipId).getQuantity()<=0){
+                return null;
+            }
+        }
+
+        List<ReservedDate>dates=reservedDateRepository.findAllByCompanyIdTransactional(reservedDate.getCompanyId());
+        Long start1=reservedDate.getDateTimeInMS();
+        Long end1=start1+reservedDate.getDuration()*60000;
+
+        for (var date:dates) {
+            Long start2=date.getDateTimeInMS();
+            Long end2=start2+date.getDuration()*60000;
+            if((start1 <= end2) && (end1 >= start2)){
+                return  null;
+            }
+        }
+
         return reservedDateRepository.save(reservedDate);
     }
 
@@ -64,25 +87,64 @@ public class ReservedDateService {
             var companyAdmin = userRepository.findById(date.getCompanyAdminId());
             var user = userRepository.findById(date.getUserId());
 
+            List<Long> equipmentIds = new ArrayList<Long>();
             List<String> equipmentNames = new ArrayList<String>();
 
             for(var equipment : date.getEquipments()){
                 var eq = equipmentRepository.findById(equipment);
+                equipmentIds.add(equipment);
                 equipmentNames.add(eq.get().getName() + " - " + eq.get().getType().toString());
             }
 
             TrackingOrderDto order = new TrackingOrderDto(date.getId(),
+                    date.getUserId(),
                     user.get().getFirst_name() + " " + user.get().getLast_name(),
                     companyAdmin.get().getFirst_name() + " " + companyAdmin.get().getLast_name(),
                     date.getPickedUp(),
                     date.getDateTimeInMS(),
                     date.getDuration(),
-                    equipmentNames);
+                    equipmentNames,
+                    equipmentIds);
 
             trackingOrders.add(order);
         }
 
         return trackingOrders;
+    }
+
+    public ReservedDate updatePickedUpStatus(Long id, Boolean status){
+        Optional<ReservedDate> optionalReservedDate = reservedDateRepository.findById(id);
+        if(optionalReservedDate.isPresent()){
+            var existingReservedDate = optionalReservedDate.get();
+            existingReservedDate.setPickedUp(status);
+            reservedDateRepository.save(existingReservedDate);
+
+            String equipmentNames = "";
+
+            List<Long> equipments = existingReservedDate.getEquipments();
+            for(var equipment : equipments){
+                var eq = equipmentRepository.findById(equipment);
+
+                equipmentNames += eq.get().getName() + " - " + eq.get().getType().toString() + "\n";
+            }
+
+            sendEquipmentsPickedUpEmail(userRepository.getUserById(existingReservedDate.getUserId()), equipmentNames);
+            return existingReservedDate;
+        }
+
+        return null;
+    }
+
+    public void sendEquipmentsPickedUpEmail(User user,String equimentNames) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(user.getEmail());
+        message.setSubject("Equipments pickup");
+        message.setText("Dear " + user.getFirst_name() + ",\n\n"
+                + "Thank you ordering: \n"
+                + equimentNames
+                + " \nfrom our company.");
+
+        javaMailSender.send(message);
     }
     public List<Equipment> findEquipmentByReservationDateId(Long id){
         List<Long> equipmentIds=reservedDateRepository.findById(id).get().getEquipments();
@@ -150,20 +212,25 @@ public class ReservedDateService {
         for(ReservedDate date : reservedDates){
             var companyAdmin = userRepository.findById(date.getCompanyAdminId());
             var user = userRepository.findById(date.getUserId());
+
+            List<Long> equipmentIds = new ArrayList<Long>();
             List<String> equipmentNames = new ArrayList<String>();
 
             for(var equipment : date.getEquipments()){
                 var eq = equipmentRepository.findById(equipment);
+                equipmentIds.add(equipment);
                 equipmentNames.add(eq.get().getName() + " - " + eq.get().getType().toString());
             }
 
             TrackingOrderDto order = new TrackingOrderDto(date.getId(),
+                    date.getUserId(),
                     user.get().getFirst_name() + " " + user.get().getLast_name(),
-                    companyAdmin.get().getFirst_name() + " " + companyAdmin.get().getLast_name(),
+                    companyAdmin.isPresent() ? companyAdmin.get().getFirst_name() + " " + companyAdmin.get().getLast_name() : "",
                     date.getPickedUp(),
                     date.getDateTimeInMS(),
                     date.getDuration(),
-                    equipmentNames);
+                    equipmentNames,
+                    equipmentIds);
 
             trackingOrders.add(order);
         }
