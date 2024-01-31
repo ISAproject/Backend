@@ -9,6 +9,7 @@ import com.example.ISA2023.back.models.irepositories.CompanyRepository;
 import com.example.ISA2023.back.models.irepositories.IPredefinedDateRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -97,6 +98,21 @@ public class CompanyService {
             allDates.add(rd);
         }
         return allDates;
+    }
+
+    @Cacheable("companies")
+    public List<Company> getAllCached(){
+        simulateSlowService();
+        return companyRepository.findAll();
+    }
+
+    static private void simulateSlowService() {
+        try {
+            long time = 3000L;
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            throw new IllegalStateException(e);
+        }
     }
 }
 
