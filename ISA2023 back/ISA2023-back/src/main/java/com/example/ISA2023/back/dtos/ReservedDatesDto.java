@@ -1,5 +1,7 @@
 package com.example.ISA2023.back.dtos;
 
+import com.example.ISA2023.back.models.QRCodeStatus;
+
 public class ReservedDatesDto {
     private Long id;
     private Long duration;
@@ -8,14 +10,24 @@ public class ReservedDatesDto {
     private Long companyAdminId;
 
     private String linkToOrder;
+    private QRCodeStatus qrCodeStatus;
 
-    public ReservedDatesDto(Long id,Long duration, Long dateTimeInMS, String companyName,Long companyAdminId,String linkToOrder) {
+    public ReservedDatesDto(Long id,Long duration, Long dateTimeInMS, String companyName,Long companyAdminId,String linkToOrder,QRCodeStatus qrCodeStatus) {
         this.duration = duration;
         this.dateTimeInMS = dateTimeInMS;
         this.companyName = companyName;
         this.id=id;
         this.companyAdminId=companyAdminId;
         this.linkToOrder=linkToOrder;
+        this.qrCodeStatus=qrCodeStatus;
+    }
+
+    public QRCodeStatus getQrCodeStatus() {
+        return qrCodeStatus;
+    }
+
+    public void setQrCodeStatus(QRCodeStatus qrCodeStatus) {
+        this.qrCodeStatus = qrCodeStatus;
     }
 
     public String getLinkToOrder() {

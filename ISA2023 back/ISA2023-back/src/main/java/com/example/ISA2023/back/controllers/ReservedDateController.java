@@ -9,6 +9,7 @@ import com.example.ISA2023.back.models.ReservedDate;
 import com.example.ISA2023.back.services.ReservedDateService;
 import com.example.ISA2023.back.user.User;
 import com.example.ISA2023.back.utils.QRCodeGenerator;
+import com.google.zxing.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -16,13 +17,16 @@ import com.google.zxing.WriterException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
@@ -126,6 +130,31 @@ public class ReservedDateController {
     public ReservedDate update(@PathVariable Long id, @PathVariable Boolean status){
         return reservedDateService.updatePickedUpStatus(id, status);
     }
+    @PostMapping("uploadQRCode")
+    public Long ScanQRCode(@RequestParam("qrCode") MultipartFile qrCode) throws NotFoundException, IOException {
+        try
+        {
+            byte[] qrCodeBytes = qrCode.getBytes();
+            String text=reservedDateService.HandleQRCode(qrCodeBytes);
+            if(text.equals("Scanned"))
+                return Long.parseLong( "9696969");
+            else
+            {
+                if(text.equals("Error"))
+                    return Long.parseLong( "96969699");
+                else
+                    return Long.parseLong(text);
+            }
 
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+            if(!e.getMessage().contains("null"))
+                return Long.parseLong( "9696969");
+            else
+                return Long.parseLong( "96969699");
+        }
 
+    }
 }

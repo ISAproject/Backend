@@ -28,11 +28,12 @@ public class ReservedDate {
 
     private Boolean isPickedUp;
     private String linkToOrder;
+    private QRCodeStatus qrCodeStatus;
 
     public ReservedDate() {
     }
 
-    public ReservedDate(Long id, Long dateTimeInMS, Long userId, List<Long> equipments, Long duration, Long companyAdminId, Boolean isPickedUp,Long companyId,String linkToOrder) {
+    public ReservedDate(Long id, Long dateTimeInMS, Long userId, List<Long> equipments, Long duration, Long companyAdminId, Boolean isPickedUp,Long companyId,String linkToOrder, QRCodeStatus status) {
         Id = id;
         DateTimeInMS = dateTimeInMS;
         this.userId = userId;
@@ -42,9 +43,11 @@ public class ReservedDate {
         this.isPickedUp = isPickedUp;
         CompanyId=companyId;
         this.linkToOrder=linkToOrder;
+        this.qrCodeStatus=status;
+
     }
 
-    public ReservedDate(Long dateTimeInMS, Long userId, List<Long> equipments, Long duration, Long companyAdminId, Boolean isPickedUp,String linkToOrder) {
+    public ReservedDate(Long dateTimeInMS, Long userId, List<Long> equipments, Long duration, Long companyAdminId, Boolean isPickedUp,String linkToOrder, QRCodeStatus status) {
         DateTimeInMS = dateTimeInMS;
         this.userId = userId;
         Equipments = equipments;
@@ -52,6 +55,7 @@ public class ReservedDate {
         CompanyAdminId = companyAdminId;
         this.isPickedUp = isPickedUp;
         this.linkToOrder=linkToOrder;
+        this.qrCodeStatus=status;
     }
 
     public String getLinkToOrder() {
@@ -124,5 +128,13 @@ public class ReservedDate {
 
     public void setCompanyId(Long companyId) {
         CompanyId = companyId;
+    }
+
+    public QRCodeStatus getQrCodeStatus() {
+        return qrCodeStatus;
+    }
+
+    public void setQrCodeStatus(QRCodeStatus qrCodeStatus) {
+        this.qrCodeStatus = qrCodeStatus;
     }
 }

@@ -5,6 +5,7 @@ import com.example.ISA2023.back.dtos.ReservedDatesDto;
 import com.example.ISA2023.back.dtos.ReservedDatesForCalendarDto;
 import com.example.ISA2023.back.models.Company;
 import com.example.ISA2023.back.models.Equipment;
+import com.example.ISA2023.back.models.QRCodeStatus;
 import com.example.ISA2023.back.models.ReservedDate;
 import com.example.ISA2023.back.models.irepositories.CompanyRepository;
 import com.example.ISA2023.back.models.irepositories.IEquipmentRepository;
@@ -12,6 +13,7 @@ import com.example.ISA2023.back.models.irepositories.IReservedDateRepository;
 import com.example.ISA2023.back.user.IUserRepository;
 import com.example.ISA2023.back.user.User;
 import com.example.ISA2023.back.utils.QRCodeGenerator;
+import com.google.zxing.NotFoundException;
 import com.google.zxing.WriterException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -28,6 +30,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.Clock;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -72,7 +75,7 @@ public class ReservedDateService {
                 return  null;
             }
         }
-
+        reservedDate.setQrCodeStatus(QRCodeStatus.NEW);
         return reservedDateRepository.save(reservedDate);
     }
 
@@ -108,7 +111,6 @@ public class ReservedDateService {
 
             trackingOrders.add(order);
         }
-
         return trackingOrders;
     }
 
@@ -117,6 +119,10 @@ public class ReservedDateService {
         if(optionalReservedDate.isPresent()){
             var existingReservedDate = optionalReservedDate.get();
             existingReservedDate.setPickedUp(status);
+            if(existingReservedDate.getPickedUp())
+                existingReservedDate.setQrCodeStatus(QRCodeStatus.ACCEPTED);
+            else
+                existingReservedDate.setQrCodeStatus(QRCodeStatus.DENIED);
             reservedDateRepository.save(existingReservedDate);
 
             String equipmentNames = "";
@@ -243,7 +249,7 @@ public class ReservedDateService {
         for (var item:reservedList) {
             if(item.getPickedUp()==flag) {
                 Company company = companyRepository.findById(item.getCompanyId()).get();
-                datesDto.add(new ReservedDatesDto(item.getId(),item.getDuration(), item.getDateTimeInMS(), company.getName(),item.getCompanyAdminId(),item.getLinkToOrder()));
+                datesDto.add(new ReservedDatesDto(item.getId(),item.getDuration(), item.getDateTimeInMS(), company.getName(),item.getCompanyAdminId(),item.getLinkToOrder(),item.getQrCodeStatus()));
             }
         }
         return datesDto;
@@ -367,5 +373,32 @@ public class ReservedDateService {
 
     public void DeleteById(Long id){
         reservedDateRepository.deleteById(id);
+    }
+
+    public String HandleQRCode(byte[] qrCode) throws NotFoundException, IOException {
+        try
+        {
+            String text= QRCodeGenerator.decodeQR(qrCode);
+            String [] separate=text.split("/");
+            Long orderId=Long.parseLong(separate[separate.length-1]);
+            if(!CheckIsScanned(orderId))
+            {
+                updatePickedUpStatus(orderId, true);
+                return orderId.toString();
+            }
+        }
+        catch(Exception e)
+        {
+            if(e.getMessage().contains("null"))
+                return "Error";
+            else
+                return "Scanned";
+        }
+        return "Scanned";
+    }
+    public boolean CheckIsScanned(Long id)
+    {
+        ReservedDate rd=FindById(id);
+        return rd.getQrCodeStatus()==QRCodeStatus.ACCEPTED || rd.getQrCodeStatus()==QRCodeStatus.DENIED;
     }
 }
