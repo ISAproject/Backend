@@ -1,11 +1,14 @@
 package com.example.ISA2023.back.models;
 
 import jakarta.persistence.*;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Entity
 @Table
+@Component
 public class Contract {
     @Id
     @SequenceGenerator(
@@ -34,6 +37,12 @@ public class Contract {
         this.dateTimeInMS = dateTimeInMS;
         this.equipments = equipments;
         this.quantity = quantity;
+    }
+
+    @RabbitListener(queues = MQConfig.QUEUE)
+    public void listener(CustomMessage message){
+        //System.out.println(message);
+        System.out.println(message.getMessage());
     }
 
     public Long getId() {
