@@ -76,11 +76,11 @@ INSERT INTO public.equipment (
     (-10, -5, 'Medical Equipment 10', 3.6, 'CareTech Insight', 16, 1);
 
 INSERT INTO public.reserved_date(
-	id, company_admin_id, company_id, date_time_inms, duration, equipments, is_picked_up, user_id,link_to_order)
+	id, company_admin_id, company_id, date_time_inms, duration, equipments, is_picked_up, user_id,link_to_order, qr_code_status)
 	VALUES 
-        (-1, -10, -2, 1707130800000, 60, ARRAY[-1, -2], false, -1,'http://localhost:3000/qrcode-equipment/-1'),
-        (-2, -11, -2, 1707562800000, 60, ARRAY[-5, -10], false, -1,'http://localhost:3000/qrcode-equipment/-2'),
-        (-3, -12, -1, 1707564600000, 60, ARRAY[-6], false, -2,'http://localhost:3000/qrcode-equipment/-3'),
-        (-4, -13, -2, 1707553800000, 60, ARRAY[-8, -9, -10], false, -1,'http://localhost:3000/qrcode-equipment/-4'),
-        (-5, -15, -5, 1707467400000, 60, ARRAY[-1, -2, -9], false, -1,'http://localhost:3000/qrcode-equipment/-5'),
-        (-6, -10, -2, 1707467400000, 60, ARRAY[-10], false, -2);
+        (-1, -10, -2, 1707130800000, 60, ARRAY[-1, -2], false, -1,'http://localhost:3000/qrcode-equipment/-1', 0),
+        (-2, -11, -2, 1707562800000, 60, ARRAY[-5, -10], false, -1,'http://localhost:3000/qrcode-equipment/-2', 0),
+        (-3, -12, -1, 1707564600000, 60, ARRAY[-6], false, -2,'http://localhost:3000/qrcode-equipment/-3', 0),
+        (-4, -13, -2, 1707553800000, 60, ARRAY[-8, -9, -10], false, -1,'http://localhost:3000/qrcode-equipment/-4', 0),
+        (-5, -15, -5, 1707467400000, 60, ARRAY[-1, -2, -9], false, -1,'http://localhost:3000/qrcode-equipment/-5', 0),
+        (-6, -10, -2, 1707467400000, 60, ARRAY[-10], false, -2, 'http://localhost:3000/qrcode-equipment/-6', 0);
