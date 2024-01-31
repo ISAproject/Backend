@@ -37,6 +37,7 @@ public class UserController {
         var user = userService.findByEmail(email);
         return user;
     }
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/{id}")
     public User findById(@PathVariable Long id){
         return userService.findById(id);
